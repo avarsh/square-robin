@@ -78,9 +78,8 @@ class Application {
     }
 
     onUserDataRequest(event, arg) {
-        event.returnValue = null;
-        //if (this.store.firstRun) event.returnValue = null;
-        //else event.returnValue = this.store.data;
+        if (this.store.firstRun) event.returnValue = null;
+        else event.returnValue = this.store.data;
     }
 
     onUserInfoInput(event, arg) {

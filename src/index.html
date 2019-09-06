@@ -26,16 +26,16 @@
         <div id="default-view">
 
             <!--Navigation sidebar-->
-            <div id="sidebar">
-                <div id="new-task" class="sidebar-btn">
+            <div id="sidebar" class="icon-navbar">
+                <div id="new-task" class="sidebar-button">
                     <div class="icon"><img class="icon-img" src="../icons/new.png"></div>
                 </div>
 
-                <div id="daily-btn" class="sidebar-btn">
+                <div id="daily-btn" class="sidebar-button" data-selected="false">
                     <div class="icon"><img class="icon-img" src="../icons/calendar.png"></div>
                 </div>
 
-                <div id="tasks-btn" class="sidebar-btn">
+                <div id="tasks-btn" class="sidebar-button" data-selected="false">
                     <div class="icon"><img class="icon-img" src="../icons/tasks.png"></div>
                 </div>
 
@@ -46,9 +46,11 @@
             <!--The main view-->
             <div id="main">
                 <div id="daily-view">
-                    <script id="greeting-template" type="text/x-handlebars-template">
-                        <span class="headline">Welcome {{username}}.<br>Here are your tasks for today.</span>
-                    </script>
+                    <div id="greeting">
+                        <script id="greeting-template" type="text/x-handlebars-template">
+                            <span class="headline">Welcome {{username}}.<br>Here are your tasks for today.</span>
+                        </script>
+                    </div>
 
                     <div class="separator"></div>
 

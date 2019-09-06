@@ -58,3 +58,45 @@ button {
         background-color: $bg-inset;
     }
 }
+
+.icon-navbar {
+    height: 100%;
+    width: $sidebar-size;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient($sidebar-light 0%, $sidebar-dark 75%);
+    overflow-x: hidden;
+}
+
+.sidebar-button {
+    height: $sidebar-size;
+    transition: 100ms ease-in;
+
+    &[data-selected=true] {
+        background-color: rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px rgba(255, 255, 255, 0.1),
+                    0 -1px rgba(0, 0, 0, 0.8);
+    }
+
+    .icon {
+        display: table-cell;
+        vertical-align: middle;
+        height: $sidebar-size;
+        width: $sidebar-size;
+    }
+
+    .icon img {
+        transition: filter 0.1s ease-in-out;
+        filter: drop-shadow(0 4px rgba(0, 0, 0, 0.2));
+        -webkit-filter: drop-shadow(0 4px rgba(0, 0, 0, 0.2));
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+}

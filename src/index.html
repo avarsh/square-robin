@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Square Robin</title>
+        
+        <script src="./resources/jquery-3.4.1.min.js"></script>
+        <script>window.$ = window.jQuery = require('./resources/jquery-3.4.1.min.js');</script>
+        <script src="./frontend/renderer.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="../styles/build/stylesheet.css">
+    </head>
+
+    <body>
+        <!--Takes input upon the first run-->
+        <div id="first-run" onsubmit="return false">
+            <form id="name-form" onsubmit="return false;">
+                <p class="headline">Hello there. What is your name?</p>
+                <input type="text" name="name-input" id="name-input">
+                <!--TODO: This button should be disabled until text is entered.-->
+                <button name="name-submit" id="name-submit">Let's Go</button>
+            </form>
+        </div>
+
+        <!--The normal view upon repeated runs-->
+        <div id="default-view">
+
+            <!--Navigation sidebar-->
+            <div id="sidebar">
+                <div id="new-task" class="sidebar-btn">
+                    <div class="icon"><img class="icon-img" src="../icons/new.png"></div>
+                </div>
+
+                <div id="daily-btn" class="sidebar-btn">
+                    <div class="icon"><img class="icon-img" src="../icons/calendar.png"></div>
+                </div>
+
+                <div id="tasks-btn" class="sidebar-btn">
+                    <div class="icon"><img class="icon-img" src="../icons/tasks.png"></div>
+                </div>
+
+                <!--Blackout for when dialog appears-->
+                <div class="blackout" id="sidebar-blackout"></div>
+            </div>
+
+            <!--The main view-->
+            <div id="main">
+                <div id="daily-view">
+                    <script id="greeting-template" type="text/x-handlebars-template">
+                        <span class="headline">Welcome {{username}}.<br>Here are your tasks for today.</span>
+                    </script>
+
+                    <div class="separator"></div>
+
+                    <!--The daily tasks-->
+                    <div id="daily-tasks-container" class="task-container">
+                        <script id="daily-tasks-template" type="text/x-handlebars-template">
+                            {{#each this}}
+                                <div class="task-box" data-completed="{{completed}}" data-id="{{id}}">
+                                    <table>
+                                    <tr class="task-checkbox-col">
+                                        <!--The checkbox to complete it for the day-->
+                                        <td>
+                                            <span class="daily-task-checkbox">
+                                                <input type="checkbox">
+                                                <span class="checkmark"></span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    
+                                    <!--Task description-->
+                                    <tr class="task-desc-col">
+                                        <span class="task-description">{{description}}</span>
+                                    </tr>
+
+                                    <!--Task size indicator-->
+                                    <tr class="task-size-col">
+                                        <span class="task-size-container" data-size="{{size}}">
+                                            <span class="size-circle-left"></span>
+                                            <span class="size-circle-middle"></span>
+                                            <span class="size-circle-large"></span>
+                                        </span>
+                                    </tr>
+
+                                    <!--Task date-->
+                                    <tr class="task-date-col">
+                                        <span class="task-date-container">
+                                            {{due-date}}
+                                        </span>
+                                    </tr>
+                                    </table>
+                                </div>
+                            {{/each}}
+                        </script>
+                    </div>
+
+                    <!--If there's no tasks-->
+                    <div id="no-tasks-container-daily">
+                        <span class="subtitle">Looks like you've got nothing to do.</span>
+                        <button id="daily-tasks-add">Add a task</button>
+                    </div>
+
+                    <!--If there's tasks but none generated yet-->
+                    <div id="none-generated-container">
+                        <span class="subtitle">Let's get started.</span>
+                        <button id="daily-generate-tasks">Give me something to do.</button>
+                    </div>
+
+                    <!--If the user has finished for the day-->
+                    <div id="all-done-container">
+                        <span class="subtitle">You're done for today!</span>
+                    </div>
+                </div>
+                
+                <!--The all tasks view-->
+                <div id="tasks-view">
+                    <span class="headline">All Tasks</span>
+                    
+                    <div class="separator"></div>
+                    
+                    <div id="all-tasks-container" class="task-container">
+                        <script id="all-tasks-template" type="text/x-handlebars-template">
+                        </script>
+                    </div>
+
+                    <div id="no-tasks-container-all">
+                        <span class="subtitle">Looks like you've got nothing to do.</span>
+                        <button id="all-tasks-add">Add a task</button>
+                    </div>
+                </div>
+
+                <!--Blackout for when dialog appears-->
+                <div class="blackout" id="main-blackout"></div>
+
+                <!--Add a task dialog-->
+                <div id="new-task-dialog" class="centered-dialog">
+                    <!--The titlebar-->
+                    <div class="dialog-titlebar">
+                        <span class="title">Add a new task</span>
+
+                        <span class="close-button" id="new-task-dialog-close">
+                            <span class="close-button-cross"></span>
+                        </span>
+                    </div>
+
+                    <!--Selecting the task type-->
+                    <table id="task-type-selector">
+                        <tr>
+                            <td>
+                            <div id="instant-button" class="unavailable-button">
+                                <h2>Instant</h2>
+                                <p>A task that needs to be done on a specific date.</p>
+                            </div>
+                            </td>
+
+                            <td> 
+                            <div id="project-button" class="default-button">
+                                <h2>Project</h2>
+                                <p>A longer task with a deadline.</p>
+                            </div>
+                            </td>
+
+                            <td>
+                            <div id="hobby-button" class="unavailable-button">
+                                <h2>Hobby</h2>
+                                <p>Work on a skill when you're less busy.</p>
+                            </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!--Project form-->
+                    <form id="project-details-form">
+                        <table id="project-details-table">
+                            <!--Description of the project-->
+                            <tr>
+                                <td>Description</td>
+                                <td><div class="input-cell"><input type="text" id="project-desc"></div></td>
+                            </tr>
+
+                            <!--When the project is due-->
+                            <tr>
+                                <td>Due Date</td>
+                                <td><input type="date" id="project-due-date">
+                            </tr>
+
+                            <!--The size of the project-->
+                            <tr>
+                                <td>Project Size</td>
+                                <td>
+                                    <div class="linked-group" id="project-size-group">
+                                        <span class="linked-button first" id="quick-size" data-selected="true">Quick</span><!--
+                                    --><span class="linked-button middle" id="long-size" data-selected="false">Long</span><!--
+                                    --><span class="linked-button end" id="marathon-size" data-selected="false">Marathon</span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!--When it should be scheduled-->
+                            <tr>
+                                <td>Schedule</td>
+                                <td>
+                                    <select id="schedule-option">
+                                        <option value="whenever">Whenever</option>
+                                        <option value="weekdays">Only during weekdays</option>
+                                        <option value="weekends">Only during weekends</option>
+                                    </select> 
+                                </td>
+                            </tr>
+
+                            <!--How fun it is to do-->
+                            <tr>
+                                <td>Funness</td>
+                                <td>
+                                    <div id="fun-slider-container">
+                                        <input type="range" class="slider" id="project-fun" min="1" max="10" value="5">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <button class="constructive" id="new-project-accept">Add Project</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

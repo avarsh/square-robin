@@ -1,0 +1,125 @@
+/*
+    index.scss
+*/
+/*
+    common.scss
+    Defines common variables.
+*/
+*:focus {
+  outline-style: dashed;
+  outline-color: rgba(0, 0, 0, 0.3);
+  outline-offset: -4px;
+  outline-width: thin;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background-color: #f2f2f2;
+  font-family: "Source Sans Pro", "sans-serif";
+  color: #2b232f;
+}
+
+.blackout {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  visibility: hidden;
+}
+
+/*
+    ui.scss
+    Defines UI elements.
+*/
+/*
+    common.scss
+    Defines common variables.
+*/
+.headline {
+  color: #19111d;
+  font-weight: 600;
+  font-size: 1.7em;
+}
+
+.separator {
+  display: block;
+  height: 1px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+input[type=text] {
+  transition: all 150ms ease-in;
+  padding: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  border: none;
+  color: #2b232f;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+input[type=text]:focus {
+  outline: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.button,
+button {
+  transition: background-color 100ms ease-in;
+  padding: 12px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: #f7f7f7;
+  border: solid 1px rgba(0, 0, 0, 0.17);
+  border-radius: 4px;
+  box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.1);
+  font-size: 1em;
+}
+.button:hover,
+button:hover {
+  background-color: #ffffff;
+  box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.2);
+}
+.button:active,
+button:active {
+  background-color: #bfbfbf;
+}
+
+/*
+    firstrun.scss
+*/
+#first-run {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+#first-run form {
+  margin: auto;
+  text-align: center;
+}
+#first-run form * {
+  margin-left: auto;
+  margin-right: auto;
+}
+#first-run form input[type=text] {
+  font-size: 1.2em;
+  text-align: center;
+  width: 80%;
+}
+#first-run form button {
+  display: block;
+  margin-top: 20px;
+}
+
+/*# sourceMappingURL=stylesheet.css.map */

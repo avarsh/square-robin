@@ -46,70 +46,27 @@
             <!--The main view-->
             <div id="main">
                 <div id="daily-view">
-                    <div id="greeting">
-                        <script id="greeting-template" type="text/x-handlebars-template">
-                            <span class="headline">Welcome {{username}}.<br>Here are your tasks for today.</span>
-                        </script>
-                    </div>
+                    <div id="greeting"></div>
 
                     <div class="separator"></div>
 
                     <!--The daily tasks-->
-                    <div id="daily-tasks-container" class="task-container">
-                        <script id="daily-tasks-template" type="text/x-handlebars-template">
-                            {{#each this}}
-                                <div class="task-box" data-completed="{{completed}}" data-id="{{id}}">
-                                    <table>
-                                    <tr class="task-checkbox-col">
-                                        <!--The checkbox to complete it for the day-->
-                                        <td>
-                                            <span class="daily-task-checkbox">
-                                                <input type="checkbox">
-                                                <span class="checkmark"></span>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <!--Task description-->
-                                    <tr class="task-desc-col">
-                                        <span class="task-description">{{description}}</span>
-                                    </tr>
-
-                                    <!--Task size indicator-->
-                                    <tr class="task-size-col">
-                                        <span class="task-size-container" data-size="{{size}}">
-                                            <span class="size-circle-left"></span>
-                                            <span class="size-circle-middle"></span>
-                                            <span class="size-circle-large"></span>
-                                        </span>
-                                    </tr>
-
-                                    <!--Task date-->
-                                    <tr class="task-date-col">
-                                        <span class="task-date-container">
-                                            {{due-date}}
-                                        </span>
-                                    </tr>
-                                    </table>
-                                </div>
-                            {{/each}}
-                        </script>
-                    </div>
+                    <div id="daily-tasks-container" class="task-container"></div>
 
                     <!--If there's no tasks-->
-                    <div id="no-tasks-container-daily">
-                        <span class="subtitle">Looks like you've got nothing to do.</span>
+                    <div id="no-tasks-container-daily" class="no-task-message">
+                        <div class="subtitle">Looks like you've got nothing to do.</div>
                         <button id="daily-tasks-add">Add a task</button>
                     </div>
 
                     <!--If there's tasks but none generated yet-->
-                    <div id="none-generated-container">
-                        <span class="subtitle">Let's get started.</span>
+                    <div id="none-generated-container" class="no-task-message">
+                        <div class="subtitle">Let's get started.</div>
                         <button id="daily-generate-tasks">Give me something to do.</button>
                     </div>
 
                     <!--If the user has finished for the day-->
-                    <div id="all-done-container">
+                    <div id="all-done-container" class="no-task-message">
                         <span class="subtitle">You're done for today!</span>
                     </div>
                 </div>
@@ -120,50 +77,10 @@
                     
                     <div class="separator"></div>
                     
-                    <div id="all-tasks-container" class="task-container">
-                        
-                        <script id="all-tasks-template" type="text/x-handlebars-template">
-                            {{#each this}}
-                                <div class="task-box" data-completed="{{completed}}" data-id="{{id}}">
-                                    <table>
-                                    <tr class="task-checkbox-col">
-                                        <!--The checkbox to complete the task-->
-                                        <td>
-                                            <span class="all-tasks-checkbox">
-                                                <input type="checkbox">
-                                                <span class="checkmark"></span>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    
-                                    <!--Task description-->
-                                    <tr class="task-desc-col">
-                                        <span class="task-description">{{description}}</span>
-                                    </tr>
+                    <div id="all-tasks-container" class="task-container"></div>
 
-                                    <!--Task size indicator-->
-                                    <tr class="task-size-col">
-                                        <span class="task-size-container" data-size="{{size}}">
-                                            <span class="size-circle-left"></span>
-                                            <span class="size-circle-middle"></span>
-                                            <span class="size-circle-large"></span>
-                                        </span>
-                                    </tr>
-
-                                    <!--Task date-->
-                                    <tr class="task-date-col">
-                                        <span class="task-date-container">
-                                            {{due-date}}
-                                        </span>
-                                    </tr>
-                                    </table>
-                                </div>
-                            {{/each}}
-                        </script>
-                    </div>
-
-                    <div id="no-tasks-container-all">
-                        <span class="subtitle">Looks like you've got nothing to do.</span>
+                    <div id="no-tasks-container-all" class="no-task-message">
+                        <div class="subtitle">Looks like you've got nothing to do.</div>
                         <button id="all-tasks-add">Add a task</button>
                     </div>
                 </div>

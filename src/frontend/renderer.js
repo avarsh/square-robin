@@ -1,5 +1,6 @@
 const {ipcRenderer} = require('electron');
-const Handlebars = require('handlebars');
+let Handlebars = require('handlebars/runtime');
+let createTemplates = require('./frontend/templates/build/templates');
 window.$ = window.jQuery = require('./resources/jquery-3.4.1.min.js');
 const today = new Date();
 
@@ -33,12 +34,7 @@ function hideAllDaily() {
 
 function loadDefaultView() {
     let data = ipcRenderer.sendSync('user-data-request');
-
-    // TODO: precompile
-
-    let greetingTemplateScript = $('#greeting-template').html();
-    let greetingTemplate = Handlebars.compile(greetingTemplateScript);
-    $('#greeting').html(greetingTemplate({'username' : data['username']}));
+    $('#greeting').html(Handlebars.templates['greeting']({'username' : data['username']}));
 
     if (data['tasks'].length == 0) {
         switchViews('tasks');
@@ -66,6 +62,8 @@ function loadDefaultView() {
 }
 
 $(window).on('load', () => {
+    createTemplates();
+
     // Firstly we hide all elements
     $('#first-run').hide();
     $('#default-view').hide();

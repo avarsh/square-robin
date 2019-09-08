@@ -1,0 +1,36 @@
+{{#each this}}
+    <div class="task-box" data-completed="{{completed}}" data-id="{{id}}">
+        <table>
+        <tr class="task-checkbox-col">
+            <!--The checkbox to complete it for the day-->
+            <td>
+                <span class="daily-task-checkbox">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </span>
+            </td>
+        </tr>
+        
+        <!--Task description-->
+        <tr class="task-desc-col">
+            <span class="task-description">{{description}}</span>
+        </tr>
+
+        <!--Task size indicator-->
+        <tr class="task-size-col">
+            <span class="task-size-container" data-size="{{size}}">
+                <span class="size-circle-left"></span>
+                <span class="size-circle-middle"></span>
+                <span class="size-circle-large"></span>
+            </span>
+        </tr>
+
+        <!--Task date-->
+        <tr class="task-date-col">
+            <span class="task-date-container">
+                {{due-date}}
+            </span>
+        </tr>
+        </table>
+    </div>
+{{/each}}

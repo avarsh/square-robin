@@ -14,7 +14,7 @@
 .separator {
     display: block;
     height: 1px;
-    width: 90%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     background-color: $outline-color;
@@ -47,7 +47,6 @@ button {
     border: solid 1px transparentize($outline-color, 0.03);
     border-radius: $border-radius;
     box-shadow: 0 8px 6px -6px transparentize($outline-color, 0.1);
-    font-size: 1.0em;
 
     &:hover {
         background-color: $bg-raised;
@@ -99,4 +98,10 @@ button {
     &:hover {
         background-color: rgba(255, 255, 255, 0.2);
     }
+}
+
+.subtitle {
+    font-weight: 600;
+    color: transparentize($text, 0.2);
+    font-size: 1.0em;
 }

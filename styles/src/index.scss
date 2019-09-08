@@ -36,6 +36,23 @@ body {
 
 #main {
     margin-left: $sidebar-size;
+    padding-left: 5%;
+    padding-right: 5%;
+
+    .headline {
+        display: block;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+}
+
+.no-task-message {
+    text-align: center;
+
+    .subtitle {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
 }
 
 @import 'ui';

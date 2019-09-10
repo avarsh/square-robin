@@ -33,6 +33,8 @@ class Application {
         this.tasksToRemove = []
         this.dailyToRemove = []
         this.idCounter = 0;
+        this.today = new Date();
+        this.sizeFactor = {'quick' : 1/7, 'long' : 3/7, 'marathon' : 1};
     }
 
     createWindow() {
@@ -77,6 +79,21 @@ class Application {
         }
     }
 
+    canBeScheduled(criteria) {
+        if (criteria == 'whenever') return true;
+
+        isWeekend = (today.getDay() == 0) || (today.getDay() == 6);
+        if (criteria == 'weekends' && isWeekend) {
+            return true;
+        }
+
+        if (criteria == 'weekdays' && !isWeekend) {
+            return true;
+        }
+
+        return false;
+    }
+
     onUserDataRequest(event, arg) {
         if (this.store.firstRun) event.returnValue = null;
         else event.returnValue = this.store.data;
@@ -117,7 +134,63 @@ class Application {
     }
 
     onDailyListRequest(event, args) {
-        // Generate
+        // Generate new tasks
+        let tasks = this.store.get('tasks');
+        let daily = [];
+        tasks.forEach((task, idx, arr) => {
+            if (task['status'] == 'urgent') {
+                daily.push(task);
+            } else {
+                let due = new Date(task['date']);
+                let timeDiff = due.getTime() - this.today.getTime();
+                let daysDiff = timeDiff / (1000 * 3600 * 24);
+                let twentyPercent = due.getTime() - (new Date(task['date-inputed'])).getTime();
+                twentyPercent = (twentyPercent / (1000 * 3600 * 24)) * 0.2;
+                if (daysDiff <= Math.max(3, twentyPercent) * (1 + this.sizeFactor[task['size']]) &&
+                    this.canBeScheduled(task['schedule-on'])) {
+                    daily.push(task);
+                    task['status'] = 'urgent';
+                }
+            }
+        });
+
+        if (args['daily'].length < 5) {
+            let potential = [];
+            tasks.forEach((task, idx, arr) => {
+                if (task['status'] != 'urgent' && 
+                    this.canBeScheduled(task['schedule-on'])) {
+                    potential.push(task);
+                }
+            });
+
+            potential.sort((s, t) => {
+                let due = new Date(s['date']);
+                let timeDiff = due.getTime() - (new Date(s['date-inputed'])).getTime();
+                let weeksDiff = timeDIff / (1000 * 3600 * 24 * 7);
+                let effort1 = this.sizeFactor[s['size']] * weeksDiff * (1 + (1 / (2 * s['fun'])));
+
+                due = new Date(t['date']);
+                timeDiff = due.getTime() - (new Date(t['date-inputed'])).getTime();
+                weeksDiff = timeDiff / (1000 * 3600 * 24 * 7);
+                let effort2 = this.sizeFactor[t['size']] * weeksDiff * (1 + (1 / (2 * t['fun'])));
+
+                return (s['times-scheduled'] / effort1) - (t['times-scheduled'] / effort2);
+            });
+
+            let i = 0;
+            while(daily.length <= Math.min(5, potential.length)) {
+                daily.push(potential[i]);
+                i++;
+            }
+        }
+
+
+        const timestamp = this.today.toDateString();
+        this.store.set('timestamp', timestamp);
+        this.store.set('tasks', tasks);
+        this.store.set('daily', daily);
+
+        event.returnValue = daily;
     }
 }
 

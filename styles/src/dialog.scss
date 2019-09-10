@@ -1,0 +1,92 @@
+@import 'common';
+
+$dialog-width: 500px;
+$dialog-height: 380px;
+
+#new-task-dialog {
+    position: relative;
+    width: $dialog-width;
+    height: $dialog-height;
+    margin-left: ($sidebar-size - $dialog-width) / 2;
+    margin-top: -($dialog-height / 2);
+}
+
+#task-type-selector {
+    width: 100%;
+    border-spacing: 24px;
+    border-collapse: separate;
+    padding-top: 10px;
+    height: 90%;
+
+    td {
+        width: 30%;
+        text-align: center;
+        background-color: transparentize($bg-raised, 0.4);
+        
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+        
+        padding: 12px;
+        user-select: none;
+        transition: 100ms ease-in;
+
+        &:hover {
+            background-color: $bg-raised;
+            box-shadow: 0 2px 4px $outline-color;
+        }
+
+        h2 {
+            font-size: 1.2em;
+        }
+
+        div {
+            height: 100%;
+        }
+    }
+}
+
+#project-details-form {
+    width: 100%;
+    
+    #project-details-table {
+        margin-left: 5%;
+        margin-right: 5%;
+        width: 90%;
+        table-layout: fixed;
+        height: 100%;
+
+        tr {
+            width: 100%;
+
+            td {
+                padding: 12px;
+                
+                &:first-child {
+                    width: 25%;
+                    text-align: right;
+                }
+
+                &:last-child {
+                    width: 75%;
+                }
+            }
+        }
+
+        input[type=text] {
+            width: 100%;
+            flex: 1;
+        }
+    }
+
+    button {
+
+        &.constructive {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+
+            margin-right: 12px;
+            margin-bottom: 12px;
+        }
+    }
+}

@@ -89,94 +89,96 @@
                 <div class="blackout" id="main-blackout"></div>
 
                 <!--Add a task dialog-->
-                <div id="new-task-dialog" class="centered-dialog">
-                    <!--The titlebar-->
-                    <div class="dialog-titlebar">
-                        <span class="title">Add a new task</span>
-
-                        <span class="close-button" id="new-task-dialog-close">
-                            <span class="close-button-cross"></span>
-                        </span>
-                    </div>
-
-                    <!--Selecting the task type-->
-                    <table id="task-type-selector">
-                        <tr>
-                            <td>
-                            <div id="instant-button" class="unavailable-button">
-                                <h2>Instant</h2>
-                                <p>A task that needs to be done on a specific date.</p>
+                <div class="centered-dialog">
+                    <div id="new-task-dialog" class="dialog">
+                        <!--The titlebar-->
+                        <div class="dialog-titlebar">
+                            <div class="close-button" id="new-task-dialog-close">
+                                <div class="close-button-cross"></div>
                             </div>
-                            </td>
 
-                            <td> 
-                            <div id="project-button" class="default-button">
-                                <h2>Project</h2>
-                                <p>A longer task with a deadline.</p>
-                            </div>
-                            </td>
+                            <div class="title">Add a new task</div>
+                        </div>
 
-                            <td>
-                            <div id="hobby-button" class="unavailable-button">
-                                <h2>Hobby</h2>
-                                <p>Work on a skill when you're less busy.</p>
-                            </div>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <!--Project form-->
-                    <form id="project-details-form">
-                        <table id="project-details-table">
-                            <!--Description of the project-->
+                        <!--Selecting the task type-->
+                        <table id="task-type-selector">
                             <tr>
-                                <td>Description</td>
-                                <td><div class="input-cell"><input type="text" id="project-desc"></div></td>
-                            </tr>
-
-                            <!--When the project is due-->
-                            <tr>
-                                <td>Due Date</td>
-                                <td><input type="date" id="project-due-date">
-                            </tr>
-
-                            <!--The size of the project-->
-                            <tr>
-                                <td>Project Size</td>
                                 <td>
-                                    <div class="linked-group" id="project-size-group">
-                                        <span class="linked-button first" id="quick-size" data-selected="true">Quick</span><!--
-                                    --><span class="linked-button middle" id="long-size" data-selected="false">Long</span><!--
-                                    --><span class="linked-button end" id="marathon-size" data-selected="false">Marathon</span>
-                                    </div>
+                                <div id="instant-button" class="unavailable-button">
+                                    <h2>Instant</h2>
+                                    <p>A task that needs to be done on a specific date.</p>
+                                </div>
                                 </td>
-                            </tr>
 
-                            <!--When it should be scheduled-->
-                            <tr>
-                                <td>Schedule</td>
-                                <td>
-                                    <select id="schedule-option">
-                                        <option value="whenever">Whenever</option>
-                                        <option value="weekdays">Only during weekdays</option>
-                                        <option value="weekends">Only during weekends</option>
-                                    </select> 
+                                <td> 
+                                <div id="project-button" class="default-button">
+                                    <h2>Project</h2>
+                                    <p>A longer task with a deadline.</p>
+                                </div>
                                 </td>
-                            </tr>
 
-                            <!--How fun it is to do-->
-                            <tr>
-                                <td>Funness</td>
                                 <td>
-                                    <div id="fun-slider-container">
-                                        <input type="range" class="slider" id="project-fun" min="1" max="10" value="5">
-                                    </div>
+                                <div id="hobby-button" class="unavailable-button">
+                                    <h2>Hobby</h2>
+                                    <p>Work on a skill when you're less busy.</p>
+                                </div>
                                 </td>
                             </tr>
                         </table>
 
-                        <button class="constructive" id="new-project-accept">Add Project</button>
-                    </form>
+                        <!--Project form-->
+                        <form id="project-details-form">
+                            <table id="project-details-table">
+                                <!--Description of the project-->
+                                <tr>
+                                    <td>Description</td>
+                                    <td><div class="input-cell"><input type="text" id="project-desc"></div></td>
+                                </tr>
+
+                                <!--When the project is due-->
+                                <tr>
+                                    <td>Due Date</td>
+                                    <td><input type="date" id="project-due-date">
+                                </tr>
+
+                                <!--The size of the project-->
+                                <tr>
+                                    <td>Project Size</td>
+                                    <td>
+                                        <div class="linked-group" id="project-size-group">
+                                            <span class="linked button first" id="quick-size" data-selected="true">Quick</span><!--
+                                        --><span class="linked button middle" id="long-size" data-selected="false">Long</span><!--
+                                        --><span class="linked button end" id="marathon-size" data-selected="false">Marathon</span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!--When it should be scheduled-->
+                                <tr>
+                                    <td>Schedule</td>
+                                    <td>
+                                        <select id="schedule-option">
+                                            <option value="whenever">Whenever</option>
+                                            <option value="weekdays">Only during weekdays</option>
+                                            <option value="weekends">Only during weekends</option>
+                                        </select> 
+                                    </td>
+                                </tr>
+
+                                <!--How fun it is to do-->
+                                <tr>
+                                    <td>Funness</td>
+                                    <td>
+                                        <div id="fun-slider-container">
+                                            <input type="range" class="slider" id="project-fun" min="1" max="10" value="5">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <button class="constructive" id="new-project-accept">Add Project</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -35,6 +35,7 @@ $(window).on('load', () => {
     $('#new-task').click(showProjectDialog);
     $('#project-button').click(showProjectForm);
     $('#new-task-dialog-close').click(hideProjectDialog);
+    $('#new-project-accept').click(addProject);
 
     // We try to get the user data
     let userData = ipcRenderer.sendSync('user-data-request', null);
@@ -55,6 +56,8 @@ function setupUI() {
         $(event.target).attr('data-selected', 'true');
         return true;
     });
+
+    $('.tooltip-text').hide();
 }
 
 
@@ -92,6 +95,7 @@ function resetTaskDialog() {
 
 function showProjectDialog() {
     $('#project-details-form').trigger('reset');
+    $('.input-error').hide();
 
     $('#task-type-selector').show();
     $('#project-details-form').hide();
@@ -127,15 +131,21 @@ function loadDefaultView() {
     let data = ipcRenderer.sendSync('user-data-request');
     $('#greeting').html(Handlebars.templates['greeting']({'username' : data['username']}));
 
+    reloadDefaultView(data);
+    $('#default-view').show();
+}
+
+function reloadDefaultView(data) {
     hideAllDaily();
     if (data['tasks'].length == 0) {
         switchViews('tasks');
         $('#no-tasks-container-all').show();
         $('#no-tasks-container-daily').show();
     } else {
-        switchViews('daily');
+        $('#no-tasks-container-all').hide();
+        //switchViews('daily');
         if (data['daily'].length == 0) {
-            if (data['timestamp'] == today.toDateStr()) {
+            if (data['timestamp'] == today.toDateString()) {
                 // We must have completed all the tasks for today
                 $('#all-done-container').show();
             } else {
@@ -149,5 +159,49 @@ function loadDefaultView() {
 
         // Fill all tasks template
         $('#all-tasks-container').html(Handlebars.templates['tasklist'](data['tasks']));
+        $('#all-tasks-container').show();
     }
+}
+
+function projectInputValid() {
+    valid = true;
+    if ($('#project-desc').val() == "") {
+        $('#no-desc-err').fadeIn(200);
+        valid = false;
+    } else {
+        $('#no-desc-err').fadeOut(200);
+    }
+
+    if ($('#project-due-date').val() == "") {
+        $('#no-date-err').fadeIn(200);
+        valid = false;
+    } else {
+        $('#no-date-err').fadeOut(200);
+    }
+
+    return valid;
+}
+
+function addProject(event) {
+    if (!projectInputValid()) {
+        return false;
+    }
+
+    hideProjectDialog();
+    let project = {};
+    project['description'] = $('#project-desc').val();
+    project['date'] = $('#project-due-date').val();
+    if ($('#quick-size').attr('data-selected') == 'true') {
+        project['size'] = 'quick';
+    } else if ($('#long-size').attr('data-selected') == 'true') {
+        project['size'] = 'long';
+    } else if ($('#marathon-size').attr('data-selected') == 'true') {
+        project['size'] = 'marathon';
+    }
+
+    project['schedule-on'] = $('#schedule-option').val();
+    let data = ipcRenderer.sendSync('project-submit', project);
+    reloadDefaultView(data);
+
+    return false;
 }

@@ -1,4 +1,4 @@
-function createTemplates () {
+function createTemplates() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['greeting'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper;
@@ -19,7 +19,7 @@ templates['tasklist'] = template({"1":function(container,depth0,helpers,partials
     + "</span>\n        </tr>\n\n        <!--Task size indicator-->\n        <tr class=\"task-size-col\">\n            <span class=\"task-size-container\" data-size=\""
     + alias4(((helper = (helper = helpers.size || (depth0 != null ? depth0.size : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"size","hash":{},"data":data}) : helper)))
     + "\">\n                <span class=\"size-circle-left\"></span>\n                <span class=\"size-circle-middle\"></span>\n                <span class=\"size-circle-large\"></span>\n            </span>\n        </tr>\n\n        <!--Task date-->\n        <tr class=\"task-date-col\">\n            <span class=\"task-date-container\">\n                "
-    + alias4(((helper = (helper = helpers["due-date"] || (depth0 != null ? depth0["due-date"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"due-date","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.date || (depth0 != null ? depth0.date : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"date","hash":{},"data":data}) : helper)))
     + "\n            </span>\n        </tr>\n        </table>\n    </div>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;

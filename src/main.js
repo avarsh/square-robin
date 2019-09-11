@@ -108,6 +108,10 @@ class Application {
     onProjectSubmit(event, args) {
         this.idCounter++;
         args['id'] = this.idCounter;
+        args['date-inputed'] = this.today.toDateString();
+        args['status'] = 'normal';
+        args['times-scheduled'] = 0;
+        args['completed'] = 'false';
     
         let tasks = this.store.get('tasks');
         tasks.push(args);
@@ -154,7 +158,7 @@ class Application {
             }
         });
 
-        if (args['daily'].length < 5) {
+        if (daily.length < 5) {
             let potential = [];
             tasks.forEach((task, idx, arr) => {
                 if (task['status'] != 'urgent' && 
@@ -178,7 +182,7 @@ class Application {
             });
 
             let i = 0;
-            while(daily.length <= Math.min(5, potential.length)) {
+            while(daily.length <= Math.min(5, potential.length - 1)) {
                 daily.push(potential[i]);
                 i++;
             }

@@ -132,13 +132,22 @@
                                 <!--Description of the project-->
                                 <tr>
                                     <td>Description</td>
-                                    <td><div class="input-cell"><input type="text" id="project-desc"></div></td>
+                                    <td>
+                                        <div class="input-cell tooltip error">
+                                            <input type="text" id="project-desc" required>
+                                            <span class="tooltip-text" id="no-desc-err">Please describe the project.</span>
+                                        </div>
+                                    </td>
                                 </tr>
 
                                 <!--When the project is due-->
                                 <tr>
                                     <td>Due Date</td>
-                                    <td><input type="date" id="project-due-date">
+                                    <td>
+                                        <div class="tooltip error">
+                                            <input type="date" id="project-due-date" required>
+                                            <span class="tooltip-text" id="no-date-err">Please add a due date.</span>
+                                        </div>
                                 </tr>
 
                                 <!--The size of the project-->

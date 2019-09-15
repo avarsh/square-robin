@@ -43,15 +43,44 @@ class Application {
             height: 600,
             webPreferences: {
                 nodeIntegration: true
-            }
+            },
+            show: false
         });
     
         this.window.loadFile('src/index.html');
         this.window.setMenuBarVisibility(false);
-        this.window.on('close', () => {
-            this.window = null; // Dereference
+        this.window.on('ready-to-show', () => {
+            this.window.show();
+        });
+
+        this.taskDialog  = new BrowserWindow({
+            parent: this.window,
+            modal: true,
+            show: false,
+            width: 500,
+            height: 380,
+            webPreferences: {
+                nodeIntegration: true
+            }
+        });
+
+        this.taskDialog.setMenuBarVisibility(false);
+        this.taskDialog.loadFile('src/dialog.html');
+        this.taskDialog.on('show', (event) => {
+            this.taskDialog.webContents.send('show');
+        });
+        this.taskDialog.on('close', (event) => {
+            event.preventDefault();
+            this.taskDialog.hide(); 
+            this.window.focus();
+            this.window.webContents.send('dialog-closed');
         });
     
+        this.window.on('close', () => {
+            this.window = null; // Dereference
+            this.taskDialog = null;
+        });
+
         if (!this.store.firstRun) {
             let tasks = this.store.get("tasks");
             tasks.forEach((element, idx, arr) => {
@@ -106,16 +135,19 @@ class Application {
     }
 
     onProjectSubmit(event, args) {
+        this.taskDialog.close();
+
         this.idCounter++;
         args['id'] = this.idCounter;
         args['date-inputed'] = this.today.toDateString();
         args['status'] = 'normal';
         args['times-scheduled'] = 0;
-        args['completed'] = 'false';
+        args['completed'] = false;
     
         let tasks = this.store.get('tasks');
         tasks.push(args);
         this.store.set('tasks', tasks);
+        this.window.webContents.send('project-submit', this.store.data);
         event.returnValue = this.store.data;
     }
 
@@ -135,6 +167,11 @@ class Application {
 
     onDailyRemoveCancel(event, args) {
         event.returnValue = removeFromArray(this.toRemove, args);
+    }
+
+    onTaskDialogRequest(event, args) {
+        this.taskDialog.show();
+        event.returnValue = true;
     }
 
     onDailyListRequest(event, args) {
@@ -216,3 +253,4 @@ ipcMain.on('daily-remove-request', (event, args) => inst.onDailyRemove(event, ar
 ipcMain.on('task-remove-cancel', (event, args) => inst.onTaskRemoveCancel(event, args));
 ipcMain.on('daily-remove-cancel', (event, args) => inst.onDailyRemoveCancel(event, args));
 ipcMain.on('daily-list-request', (event, args) => inst.onDailyListRequest(event, args));
+ipcMain.on('show-task-dialog', (event, args) => inst.onTaskDialogRequest(event, args));

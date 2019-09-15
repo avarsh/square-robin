@@ -1,4 +1,4 @@
-const {ipcRenderer} = require('electron');
+const { ipcRenderer } = require('electron');
 let Handlebars = require('handlebars/runtime');
 let createTemplates = require('./frontend/templates/build/templates');
 window.$ = window.jQuery = require('./resources/jquery-3.4.1.min.js');
@@ -8,7 +8,6 @@ $(window).on('load', () => {
     // Firstly we hide all elements
     $('#first-run').hide();
     $('#default-view').hide();
-    $('#new-task-dialog').hide();
     $('.blackout').hide();
 
     // Hide the subviews within the views as well
@@ -24,7 +23,7 @@ $(window).on('load', () => {
     setupUI();
 
     // Hide dialog views
-    resetTaskDialog();
+    //resetTaskDialog();
 
     createTemplates();
 
@@ -33,9 +32,22 @@ $(window).on('load', () => {
     $('#daily-btn').click(() => switchViews('daily'));
     $('#tasks-btn').click(() => switchViews('tasks'));
     $('#new-task').click(showProjectDialog);
-    $('#project-button').click(showProjectForm);
-    $('#new-task-dialog-close').click(hideProjectDialog);
-    $('#new-project-accept').click(addProject);
+    $('#daily-generate-tasks').click(generationRequest);
+
+    ipcRenderer.on('dialog-closed', () => {
+        $('.blackout').fadeOut(100);
+    });
+
+    ipcRenderer.on('project-submit', (event, data) => {
+        reloadTasks(data);
+
+        // After adding a task we may need to update the daily view
+        if ($('#no-tasks-container-daily').is(':visible') &&
+            !$('#no-tasks-container-daily').is(':hidden')) {
+            $('#no-tasks-container-daily').hide();
+            $('#none-generated-container').show();
+        }
+    });
 
     // We try to get the user data
     let userData = ipcRenderer.sendSync('user-data-request', null);
@@ -43,6 +55,7 @@ $(window).on('load', () => {
         // We're on the first run
         $('#first-run').show(150);
     } else {
+        taskCount = userData['tasks'].length;
         loadDefaultView();
         $('#default-view').show(200);
     }
@@ -75,13 +88,13 @@ function onNameInput() {
 
 function switchViews(view) {
     if (view == 'daily') {
-        $('#tasks-view').fadeOut(100, function() {
+        $('#tasks-view').fadeOut(100, function () {
             $('#daily-view').fadeIn(100);
         });
         $('#daily-btn').attr('data-selected', 'true');
         $('#tasks-btn').attr('data-selected', 'false');
     } else if (view == 'tasks') {
-        $('#daily-view').fadeOut(100, function() {
+        $('#daily-view').fadeOut(100, function () {
             $('#tasks-view').fadeIn(100);
         });
         $('#daily-btn').attr('data-selected', 'false');
@@ -94,25 +107,13 @@ function resetTaskDialog() {
 }
 
 function showProjectDialog() {
-    $('#project-details-form').trigger('reset');
-    $('.input-error').hide();
-
-    $('#task-type-selector').show();
-    $('#project-details-form').hide();
-
     $('.blackout').fadeIn(100);
-    $('#new-task-dialog').fadeIn(100);
+    ipcRenderer.send('show-task-dialog');
 }
 
 function hideProjectDialog() {
     $('.blackout').fadeOut(100);
     $('#new-task-dialog').fadeOut(100);
-}
-
-function showProjectForm() {
-    $('#task-type-selector').fadeOut(100, function() {
-        $('#project-details-form').fadeIn(100);
-    });
 }
 
 function hideAllDaily() {
@@ -125,83 +126,79 @@ function hideAllDaily() {
 function fillDailyView(data) {
     $('#daily-tasks-container').html(Handlebars.templates['tasklist'](data['daily']));
     $('#daily-tasks-container').show();
+
+    // Checkmarks 
+    $('.checkbox-container').click(checkboxClicked);
+    
 }
 
 function loadDefaultView() {
     let data = ipcRenderer.sendSync('user-data-request');
-    $('#greeting').html(Handlebars.templates['greeting']({'username' : data['username']}));
+    $('#greeting').html(Handlebars.templates['greeting']({ 'username': data['username'] }));
 
-    reloadDefaultView(data);
-    $('#default-view').show();
-}
-
-function reloadDefaultView(data) {
     hideAllDaily();
     if (data['tasks'].length == 0) {
-        switchViews('tasks');
+        // If there are no tasks in the system,
+        // prompt the user to add some
         $('#no-tasks-container-all').show();
         $('#no-tasks-container-daily').show();
+
+        switchViews('tasks');
     } else {
-        $('#no-tasks-container-all').hide();
-        //switchViews('daily');
-        if (data['daily'].length == 0) {
-            if (data['timestamp'] == today.toDateString()) {
-                // We must have completed all the tasks for today
-                $('#all-done-container').show();
+        // There are tasks in the system, so fill up the all task list
+        $('#all-tasks-container').html(Handlebars.templates['tasklist'](data['tasks']));
+        $('#all-tasks-container').show();
+
+        if (data['timestamp'] == today.toDateString()) {
+            // If we have generated tasks today
+            if (data['daily'].length == 0) {
+                // But if the user has completed them all
+                $('all-done-container').show();
             } else {
-                // Generate the tasks
-                data['daily'] = ipcRenderer.sendSync('daily-list-request', null);
+                // If the user hasn't completed them all,
+                // show them
                 fillDailyView(data);
             }
         } else {
+            // We haven't generated tasks today
+            data['daily'] = ipcRenderer.sendSync('daily-list-request', null);
             fillDailyView(data);
         }
 
-        // Fill all tasks template
-        $('#all-tasks-container').html(Handlebars.templates['tasklist'](data['tasks']));
-        $('#all-tasks-container').show();
+        switchViews('daily');
+    }
+
+    $('#default-view').show();
+}
+
+function reloadTasks(data) {
+    alert(data);
+    $('#all-tasks-container').html(Handlebars.templates['tasklist'](data['tasks']));
+    $('#all-tasks-container').show();
+    $('.checkbox-container').click(checkboxClicked);
+}
+
+function generationRequest(event) {
+    /* Check if there are tasks available in this session
+       by looping through the task list.
+       This is to cover the edge case where the user adds tasks
+       and immediately checks them off.
+     */
+
+    if ($('#all-tasks-container').children('data-completed="false"').length != 0) {
+
+    } else {
+        // Show a dialog box
     }
 }
 
-function projectInputValid() {
-    valid = true;
-    if ($('#project-desc').val() == "") {
-        $('#no-desc-err').fadeIn(200);
-        valid = false;
-    } else {
-        $('#no-desc-err').fadeOut(200);
+function checkboxClicked(event) {
+    $(event.target).toggleClass('checked');
+    let curr = event.target;
+    while (!$(curr).hasClass('task-box')) {
+        curr = $(curr).parent();
     }
 
-    if ($('#project-due-date').val() == "") {
-        $('#no-date-err').fadeIn(200);
-        valid = false;
-    } else {
-        $('#no-date-err').fadeOut(200);
-    }
-
-    return valid;
-}
-
-function addProject(event) {
-    if (!projectInputValid()) {
-        return false;
-    }
-
-    hideProjectDialog();
-    let project = {};
-    project['description'] = $('#project-desc').val();
-    project['date'] = $('#project-due-date').val();
-    if ($('#quick-size').attr('data-selected') == 'true') {
-        project['size'] = 'quick';
-    } else if ($('#long-size').attr('data-selected') == 'true') {
-        project['size'] = 'long';
-    } else if ($('#marathon-size').attr('data-selected') == 'true') {
-        project['size'] = 'marathon';
-    }
-
-    project['schedule-on'] = $('#schedule-option').val();
-    let data = ipcRenderer.sendSync('project-submit', project);
-    reloadDefaultView(data);
-
-    return false;
+    let completed = ($(curr).attr('data-completed') == 'false');
+    $(curr).attr('data-completed', completed);
 }

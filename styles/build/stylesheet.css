@@ -288,6 +288,25 @@ select:hover {
   background-color: #ff3333;
 }
 
+.checkbox-container {
+  width: 16px;
+  height: 16px;
+  border-radius: 35px;
+  border: solid 2px rgba(0, 0, 0, 0.2);
+  transition: 100ms ease-in;
+}
+.checkbox-container:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.checkbox-container:active, .checkbox-container.checked {
+  border-color: #21eb17;
+}
+.checkbox-container.checked {
+  background-image: url("../../icons/tick.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 /*
     firstrun.scss
 */
@@ -415,6 +434,43 @@ select:hover {
   bottom: 0;
   margin-right: 12px;
   margin-bottom: 12px;
+}
+
+/*
+    common.scss
+    Defines common variables.
+*/
+.task-box {
+  background-color: #ffffff;
+  width: 90%;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 24px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.task-box table {
+  width: 100%;
+}
+.task-box .task-checkbox-col {
+  width: 24px;
+}
+.task-box .task-date-col {
+  text-align: right;
+}
+.task-box .task-date-col .task-date-container {
+  display: inline;
+  background-color: #f0f0f0;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 35px;
+  font-size: 0.95em;
+  white-space: nowrap;
+}
+.task-box[data-completed=true] .task-description {
+  text-decoration: line-through;
 }
 
 /*# sourceMappingURL=stylesheet.css.map */

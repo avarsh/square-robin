@@ -253,3 +253,25 @@ select {
         background-color: $urgent;
     }
 }
+
+.checkbox-container {
+    width: 16px;
+    height: 16px;
+    border-radius: 35px;
+    border: solid 2px $outline-color;
+    transition: 100ms ease-in;
+
+    &:hover {
+        border-color: darken($outline-color, 5%);
+    }
+
+    &:active, &.checked {
+        border-color: $success;
+    }
+
+    &.checked {
+        background-image: url("../../icons/tick.png");
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}

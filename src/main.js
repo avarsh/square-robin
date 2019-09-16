@@ -244,7 +244,7 @@ class Application {
             });
 
             let i = 0;
-            while(daily.length <= Math.min(5, potential.length - 1)) {
+            while(daily.length <= Math.min(4, potential.length - 1 + daily.length)) {
                 daily.push(potential[i]);
                 i++;
             }

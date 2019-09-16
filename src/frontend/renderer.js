@@ -1,8 +1,9 @@
 const { ipcRenderer } = require('electron');
 let Handlebars = require('handlebars/runtime');
 let createTemplates = require('./frontend/templates/build/templates');
+const DateHandler = require('./utils/date');
 window.$ = window.jQuery = require('./resources/jquery-3.4.1.min.js');
-const today = new Date();
+const dateHandler = new DateHandler();
 
 $(window).on('load', () => {
     // Firstly we hide all elements
@@ -22,9 +23,7 @@ $(window).on('load', () => {
     // Configure UI elements
     setupUI();
 
-    // Hide dialog views
-    //resetTaskDialog();
-
+    // Add precompiled templates
     createTemplates();
 
     // Set up callbacks
@@ -54,8 +53,11 @@ $(window).on('load', () => {
         $('#no-tasks-container-all').hide();
 
         // After adding a task we may need to update the daily view
-        if (!$('#daily-tasks-container').is(':visible') ||
-            $('#daily-tasks-container').is(':hidden')) {
+        if ((!$('#daily-tasks-container').is(':visible') ||
+            $('#daily-tasks-container').is(':hidden')) && (
+            !$('#all-done-container').is(':visible') ||
+            $('#all-done-container').is(':hidden'))) {
+
             $('#no-tasks-container-daily').hide();
             $('#none-generated-container').show();
         }
@@ -127,7 +129,7 @@ function hideAllDaily() {
 }
 
 function fillDailyView(data) {
-    $('#daily-tasks-container').html(Handlebars.templates['tasklist'](data['daily']));
+    $('#daily-tasks-container').html(Handlebars.templates['tasklist'](dateHandler.convertTaskListForHuman(data['daily'])));
     hideAllDaily();
     $('#daily-tasks-container').show();
 
@@ -150,10 +152,11 @@ function loadDefaultView() {
         switchViews('tasks');
     } else {
         // There are tasks in the system, so fill up the all task list
-        $('#all-tasks-container').html(Handlebars.templates['tasklist'](data['tasks']));
+        $('#all-tasks-container').html(Handlebars.templates['tasklist'](
+            dateHandler.convertTaskListForHuman(data['tasks'])));
         $('#all-tasks-container').show();
 
-        if (data['timestamp'] == today.toDateString()) {
+        if (data['timestamp'] == dateHandler.todayStr) {
             // If we have generated tasks today
             if (data['daily'].length == 0) {
                 // But if the user has completed them all
@@ -176,7 +179,12 @@ function loadDefaultView() {
 }
 
 function reloadTasks(data) {
-    $('#all-tasks-container').html(Handlebars.templates['tasklist'](data['tasks']));
+    $('#all-tasks-container').html(
+        Handlebars.templates['tasklist'](
+            dateHandler.convertTaskListForHuman(data['tasks'])
+        )
+    );
+
     $('#all-tasks-container').show();
     $('.checkbox-container').click(checkboxClicked);
 }

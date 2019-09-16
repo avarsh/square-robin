@@ -9,6 +9,9 @@ $(window).on('load', () => {
         $(event.target).attr('data-selected', 'true');
         return true;
     });
+
+    $('#project-button').click(showProjectForm);
+    $('#new-project-accept').click(addProject);
 });
 
 ipcRenderer.on('show', () => {
@@ -16,9 +19,6 @@ ipcRenderer.on('show', () => {
     $('.tooltip-text').hide();
     $('#task-type-selector').show();
     $('#project-details-form').hide();
-
-    $('#project-button').click(showProjectForm);
-    $('#new-project-accept').click(addProject);
 });
 
 function showProjectForm(event) {

@@ -467,17 +467,18 @@ select:hover {
   white-space: nowrap;
 }
 .task-box .task-date-col {
-  text-align: right;
+  text-align: center;
   white-space: nowrap;
 }
 .task-box .task-date-col .task-date-container {
-  display: inline;
+  display: inline-block;
   background-color: #f0f0f0;
   padding-top: 6px;
   padding-bottom: 6px;
   padding-left: 12px;
   padding-right: 12px;
   border-radius: 35px;
+  width: 96px;
   font-size: 0.95em;
   white-space: nowrap;
 }
@@ -488,7 +489,6 @@ select:hover {
   white-space: nowrap;
 }
 .task-box .task-size-col .task-size-container {
-  float: right;
   width: 64px;
 }
 .task-box .task-size-col .task-size-container div {

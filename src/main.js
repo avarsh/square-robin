@@ -1,5 +1,7 @@
 const {app, BrowserWindow, ipcMain, dialog} = require('electron');
 const Store = require('./backend/store.js');
+const DateHandler = require('./utils/date');
+const dateHandler = new DateHandler();
 
 function removeFromArray(arr, elem) {
     let idx = -1;
@@ -49,7 +51,6 @@ class Application {
         this.tasksToRemove = []
         this.dailyToRemove = []
         this.idCounter = 0;
-        this.today = new Date();
         this.sizeFactor = {'quick' : 1/7, 'long' : 3/7, 'marathon' : 1};
     }
 
@@ -133,7 +134,7 @@ class Application {
     canBeScheduled(criteria) {
         if (criteria == 'whenever') return true;
 
-        isWeekend = (today.getDay() == 0) || (today.getDay() == 6);
+        isWeekend = (dateHandler.today.getDay() == 0) || (dateHandler.today.getDay() == 6);
         if (criteria == 'weekends' && isWeekend) {
             return true;
         }
@@ -161,7 +162,7 @@ class Application {
 
         this.idCounter++;
         args['id'] = this.idCounter;
-        args['date-inputed'] = this.today.toDateString();
+        args['date-inputed'] = dateHandler.todayStr;
         args['status'] = 'normal';
         args['times-scheduled'] = 0;
         args['completed'] = false;
@@ -207,7 +208,7 @@ class Application {
                 daily.push(task);
             } else {
                 let due = new Date(task['date']);
-                let timeDiff = due.getTime() - this.today.getTime();
+                let timeDiff = due.getTime() - dateHandler.today.getTime();
                 let daysDiff = timeDiff / (1000 * 3600 * 24);
                 let twentyPercent = due.getTime() - (new Date(task['date-inputed'])).getTime();
                 twentyPercent = (twentyPercent / (1000 * 3600 * 24)) * 0.2;
@@ -231,7 +232,7 @@ class Application {
             potential.sort((s, t) => {
                 let due = new Date(s['date']);
                 let timeDiff = due.getTime() - (new Date(s['date-inputed'])).getTime();
-                let weeksDiff = timeDIff / (1000 * 3600 * 24 * 7);
+                let weeksDiff = timeDiff / (1000 * 3600 * 24 * 7);
                 let effort1 = this.sizeFactor[s['size']] * weeksDiff * (1 + (1 / (2 * s['fun'])));
 
                 due = new Date(t['date']);
@@ -250,7 +251,7 @@ class Application {
         }
 
 
-        const timestamp = this.today.toDateString();
+        const timestamp = dateHandler.todayStr;
         this.store.set('timestamp', timestamp);
         this.store.set('tasks', tasks);
         this.store.set('daily', daily);

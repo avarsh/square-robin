@@ -4,7 +4,23 @@ const Store = require('./backend/store.js');
 function removeFromArray(arr, elem) {
     let idx = -1;
     for (let i = 0; i < arr.length; i++) {
-        if (arr[i] == args) {
+        if (arr[i] == elem) {
+            idx = i;
+        }
+    }
+    
+    if (idx != -1) {
+        arr.splice(idx, 1);
+        return true;
+    }
+
+    return false;
+}
+
+function removeFromArrayWithKey(arr, elem, key) {
+    let idx = -1;
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i][key] == elem) {
             idx = i;
         }
     }
@@ -77,6 +93,7 @@ class Application {
         });
     
         this.window.on('close', () => {
+            this.windowClose();
             this.window = null; // Dereference
             this.taskDialog = null;
         });
@@ -94,11 +111,16 @@ class Application {
             let tasks = this.store.get('tasks');
             let daily = this.store.get('daily');
             this.tasksToRemove.forEach((id, idx, arr) => {
-                removeFromArray(tasks, id);
+                // Tasks which are completed should be removed from both
+                // all tasks and the daily tasks
+                removeFromArrayWithKey(tasks, id, 'id');
+                removeFromArrayWithKey(daily, id, 'id');
             });
 
             this.dailyToRemove.forEach((id, idx, arr) => {
-                removeFromArray(daily, id);
+                // Tasks which have been completed *for today* 
+                // should only be removed from today's todos
+                removeFromArrayWithKey(daily, id, 'id');
             });
     
             this.store.set('tasks', tasks);
@@ -157,23 +179,25 @@ class Application {
     }
 
     onDailyRemove(event, args) {
+        console.log("queueing for removal...");
         this.dailyToRemove.push(args);
         event.returnValue = true;
     }
 
     onTaskRemoveCancel(event, args) {
-        event.returnValue = removeFromArray(this.toRemove, args);
+        event.returnValue = removeFromArray(this.tasksToRemove, args);
     }
 
     onDailyRemoveCancel(event, args) {
-        event.returnValue = removeFromArray(this.toRemove, args);
+        console.log("canceling...");
+        event.returnValue = removeFromArray(this.dailyToRemove, args);
     }
 
     onTaskDialogRequest(event, args) {
         this.taskDialog.show();
         event.returnValue = true;
     }
-
+    
     onDailyListRequest(event, args) {
         // Generate new tasks
         let tasks = this.store.get('tasks');
@@ -248,9 +272,11 @@ app.on('activate', () => {
 ipcMain.on('user-data-request', (event, args) => inst.onUserDataRequest(event, args));
 ipcMain.on('user-info-input', (event, args) => inst.onUserInfoInput(event, args));
 ipcMain.on('project-submit', (event, args) => inst.onProjectSubmit(event, args));
+
 ipcMain.on('task-remove-request', (event, args) => inst.onTaskRemove(event, args));
 ipcMain.on('daily-remove-request', (event, args) => inst.onDailyRemove(event, args));
 ipcMain.on('task-remove-cancel', (event, args) => inst.onTaskRemoveCancel(event, args));
 ipcMain.on('daily-remove-cancel', (event, args) => inst.onDailyRemoveCancel(event, args));
+
 ipcMain.on('daily-list-request', (event, args) => inst.onDailyListRequest(event, args));
 ipcMain.on('show-task-dialog', (event, args) => inst.onTaskDialogRequest(event, args));

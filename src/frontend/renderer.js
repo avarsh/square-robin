@@ -194,11 +194,27 @@ function generationRequest(event) {
 
 function checkboxClicked(event) {
     $(event.target).toggleClass('checked');
+    let completed = $(event.target).hasClass('checked');
     let curr = event.target;
     while (!$(curr).hasClass('task-box')) {
         curr = $(curr).parent();
     }
 
-    let completed = ($(curr).attr('data-completed') == 'false');
     $(curr).attr('data-completed', completed);
+
+    // Queue for removal in backend
+    let parent = $(curr).parent().attr('id');
+    if (parent == 'daily-tasks-container') {
+        if (completed) {
+            ipcRenderer.sendSync('daily-remove-request', $(curr).attr('data-id'));
+        } else {
+            ipcRenderer.sendSync('daily-remove-cancel', $(curr).attr('data-id'));
+        }
+    } else if (parent == 'all-tasks-container') {
+        if (completed) {
+            ipcRenderer.sendSync('task-remove-request', $(curr).attr('data-id'));
+        } else {
+            ipcRenderer.sendSync('task-remove-cancel', $(curr).attr('data-id'));
+        }
+    }
 }

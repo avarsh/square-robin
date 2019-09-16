@@ -262,7 +262,7 @@ select {
     transition: 100ms ease-in;
 
     &:hover {
-        border-color: darken($outline-color, 5%);
+        border-color: $outline-hover;
     }
 
     &:active, &.checked {

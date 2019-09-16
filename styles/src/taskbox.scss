@@ -13,12 +13,22 @@
         width: 100%;
     }
 
+    .task-desc-col {
+        width: 99%;
+
+        .task-description {
+            padding-left: 12px;
+        }
+    }
+
     .task-checkbox-col {
         width: 24px;
+        white-space: nowrap;
     }
 
     .task-date-col {
         text-align: right;
+        white-space: nowrap;
 
         .task-date-container {
             display: inline;
@@ -37,6 +47,41 @@
     &[data-completed=true] {
         .task-description {
             text-decoration: line-through;
+        }
+    }
+
+    .task-size-col {
+        white-space: nowrap;
+        .task-size-container {
+            float: right;
+            width: 64px;
+
+            div {
+                width: 10px;
+                height: 10px;
+                border-radius: 25px;
+                background-color: transparentize($outline-color, 0.1);
+                display: inline-block;
+                margin-left: 4px;
+            }
+
+            &[data-size="quick"] {
+                .size-circle-left {
+                    background-color: $size-quick;
+                }
+            }
+
+            &[data-size="long"] {
+                .size-circle-left, .size-circle-middle {
+                    background-color: $size-long;
+                }
+            }
+
+            &[data-size="marathon"] {
+                div {
+                    background-color: $size-marathon;
+                }
+            }
         }
     }
 }

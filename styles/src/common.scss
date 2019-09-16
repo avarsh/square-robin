@@ -17,6 +17,7 @@ $bg-raised:     #ffffff;
 $bg-inset:      darken($bg, 8%);
 $checkbox:      #cccccc;
 $outline-color: rgba(0, 0, 0, 0.2);
+$outline-hover: rgba(0, 0, 0, 0.4);
 $blackout:      rgba(0, 0, 0, 0.5);
 $dialog-bg:     $bg;
 
@@ -26,3 +27,8 @@ $font: 'Source Sans Pro', 'sans-serif';
 // Shapes
 $border-radius: 4px;
 $sidebar-size:  64px;
+
+// Indicators
+$size-quick:    #0de46c;
+$size-long:     #ff9b1d;
+$size-marathon: #ff3226;

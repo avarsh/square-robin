@@ -296,7 +296,7 @@ select:hover {
   transition: 100ms ease-in;
 }
 .checkbox-container:hover {
-  border-color: rgba(0, 0, 0, 0.2);
+  border-color: rgba(0, 0, 0, 0.4);
 }
 .checkbox-container:active, .checkbox-container.checked {
   border-color: #21eb17;
@@ -452,11 +452,19 @@ select:hover {
 .task-box table {
   width: 100%;
 }
+.task-box .task-desc-col {
+  width: 99%;
+}
+.task-box .task-desc-col .task-description {
+  padding-left: 12px;
+}
 .task-box .task-checkbox-col {
   width: 24px;
+  white-space: nowrap;
 }
 .task-box .task-date-col {
   text-align: right;
+  white-space: nowrap;
 }
 .task-box .task-date-col .task-date-container {
   display: inline;
@@ -471,6 +479,30 @@ select:hover {
 }
 .task-box[data-completed=true] .task-description {
   text-decoration: line-through;
+}
+.task-box .task-size-col {
+  white-space: nowrap;
+}
+.task-box .task-size-col .task-size-container {
+  float: right;
+  width: 64px;
+}
+.task-box .task-size-col .task-size-container div {
+  width: 10px;
+  height: 10px;
+  border-radius: 25px;
+  background-color: rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  margin-left: 4px;
+}
+.task-box .task-size-col .task-size-container[data-size=quick] .size-circle-left {
+  background-color: #0de46c;
+}
+.task-box .task-size-col .task-size-container[data-size=long] .size-circle-left, .task-box .task-size-col .task-size-container[data-size=long] .size-circle-middle {
+  background-color: #ff9b1d;
+}
+.task-box .task-size-col .task-size-container[data-size=marathon] div {
+  background-color: #ff3226;
 }
 
 /*# sourceMappingURL=stylesheet.css.map */

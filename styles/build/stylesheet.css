@@ -448,6 +448,10 @@ select:hover {
   margin-top: 24px;
   margin-left: auto;
   margin-right: auto;
+  transition: 100ms ease-in;
+}
+.task-box:hover {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
 }
 .task-box table {
   width: 100%;

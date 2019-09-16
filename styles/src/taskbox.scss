@@ -8,6 +8,11 @@
     margin-top: 24px;
     margin-left: auto;
     margin-right: auto;
+    transition: 100ms ease-in;
+
+    &:hover {
+        box-shadow: 0 5px 10px transparentize($outline-color, 0.15);
+    }
 
     table {
         width: 100%;

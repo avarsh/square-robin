@@ -197,20 +197,24 @@ function checkboxClicked(event) {
     }
 
     $(curr).attr('data-completed', completed);
-
-    // Queue for removal in backend
     let parent = $(curr).parent().attr('id');
+    let id = $(curr).attr('data-id');
+    queueRemoval(parent, id, completed);
+}
+
+function queueRemoval(parent, id, completed) {
+    // Queue for removal in backend
     if (parent == 'daily-tasks-container') {
         if (completed) {
-            ipcRenderer.sendSync('daily-remove-request', $(curr).attr('data-id'));
+            ipcRenderer.sendSync('daily-remove-request', id);
         } else {
-            ipcRenderer.sendSync('daily-remove-cancel', $(curr).attr('data-id'));
+            ipcRenderer.sendSync('daily-remove-cancel', id);
         }
     } else if (parent == 'all-tasks-container') {
         if (completed) {
-            ipcRenderer.sendSync('task-remove-request', $(curr).attr('data-id'));
+            ipcRenderer.sendSync('task-remove-request', id);
         } else {
-            ipcRenderer.sendSync('task-remove-cancel', $(curr).attr('data-id'));
+            ipcRenderer.sendSync('task-remove-cancel', id);
         }
     }
 }

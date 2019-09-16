@@ -179,18 +179,18 @@ class Application {
     }
 
     onDailyRemove(event, args) {
-        console.log("queueing for removal...");
         this.dailyToRemove.push(args);
         event.returnValue = true;
     }
 
     onTaskRemoveCancel(event, args) {
         event.returnValue = removeFromArray(this.tasksToRemove, args);
+        event.returnValue = true;
     }
 
     onDailyRemoveCancel(event, args) {
-        console.log("canceling...");
         event.returnValue = removeFromArray(this.dailyToRemove, args);
+        event.returnValue = true;
     }
 
     onTaskDialogRequest(event, args) {

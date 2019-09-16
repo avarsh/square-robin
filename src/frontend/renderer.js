@@ -35,6 +35,15 @@ $(window).on('load', () => {
     $('#daily-tasks-add').click(showProjectDialog);
     $('#all-tasks-add').click(showProjectDialog);
     $('#daily-generate-tasks').click(generationRequest);
+    $('#name-submit').prop("disabled", true);
+
+    $('#name-input').on('input', () => {
+        if ($('#name-input').val().length == 0) {
+            $('#name-submit').prop("disabled", true);
+        } else {
+            $('#name-submit').prop("disabled", false);
+        }
+    });
 
     ipcRenderer.on('dialog-closed', () => {
         $('.blackout').fadeOut(100);

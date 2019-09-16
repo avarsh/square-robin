@@ -1,4 +1,4 @@
-const {app, BrowserWindow, ipcMain} = require('electron');
+const {app, BrowserWindow, ipcMain, dialog} = require('electron');
 const Store = require('./backend/store.js');
 
 function removeFromArray(arr, elem) {
@@ -280,3 +280,7 @@ ipcMain.on('daily-remove-cancel', (event, args) => inst.onDailyRemoveCancel(even
 
 ipcMain.on('daily-list-request', (event, args) => inst.onDailyListRequest(event, args));
 ipcMain.on('show-task-dialog', (event, args) => inst.onTaskDialogRequest(event, args));
+
+ipcMain.on('show-error', (event, args) => {
+    dialog.showErrorBox(args['title'], args['message']);
+});

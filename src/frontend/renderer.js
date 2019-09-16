@@ -32,6 +32,8 @@ $(window).on('load', () => {
     $('#daily-btn').click(() => switchViews('daily'));
     $('#tasks-btn').click(() => switchViews('tasks'));
     $('#new-task').click(showProjectDialog);
+    $('#daily-tasks-add').click(showProjectDialog);
+    $('#all-tasks-add').click(showProjectDialog);
     $('#daily-generate-tasks').click(generationRequest);
 
     ipcRenderer.on('dialog-closed', () => {
@@ -40,10 +42,11 @@ $(window).on('load', () => {
 
     ipcRenderer.on('project-submit', (event, data) => {
         reloadTasks(data);
+        $('#no-tasks-container-all').hide();
 
         // After adding a task we may need to update the daily view
-        if ($('#no-tasks-container-daily').is(':visible') &&
-            !$('#no-tasks-container-daily').is(':hidden')) {
+        if (!$('#daily-tasks-container').is(':visible') ||
+            $('#daily-tasks-container').is(':hidden')) {
             $('#no-tasks-container-daily').hide();
             $('#none-generated-container').show();
         }
@@ -102,18 +105,9 @@ function switchViews(view) {
     }
 }
 
-function resetTaskDialog() {
-    $('#project-details-form').hide();
-}
-
 function showProjectDialog() {
     $('.blackout').fadeIn(100);
     ipcRenderer.send('show-task-dialog');
-}
-
-function hideProjectDialog() {
-    $('.blackout').fadeOut(100);
-    $('#new-task-dialog').fadeOut(100);
 }
 
 function hideAllDaily() {
@@ -125,6 +119,7 @@ function hideAllDaily() {
 
 function fillDailyView(data) {
     $('#daily-tasks-container').html(Handlebars.templates['tasklist'](data['daily']));
+    hideAllDaily();
     $('#daily-tasks-container').show();
 
     // Checkmarks 
@@ -153,7 +148,7 @@ function loadDefaultView() {
             // If we have generated tasks today
             if (data['daily'].length == 0) {
                 // But if the user has completed them all
-                $('all-done-container').show();
+                $('#all-done-container').show();
             } else {
                 // If the user hasn't completed them all,
                 // show them
@@ -172,7 +167,6 @@ function loadDefaultView() {
 }
 
 function reloadTasks(data) {
-    alert(data);
     $('#all-tasks-container').html(Handlebars.templates['tasklist'](data['tasks']));
     $('#all-tasks-container').show();
     $('.checkbox-container').click(checkboxClicked);
@@ -185,10 +179,12 @@ function generationRequest(event) {
        and immediately checks them off.
      */
 
-    if ($('#all-tasks-container').children('data-completed="false"').length != 0) {
-
+    if ($('#all-tasks-container').children('[data-completed="false"]').length != 0) {
+        data = []
+        data['daily'] = ipcRenderer.sendSync('daily-list-request', null);
+        fillDailyView(data);
     } else {
-        // Show a dialog box
+        ipcRenderer.send('show-error', {title: 'No Tasks Available', message: 'Try adding some more.'})
     }
 }
 

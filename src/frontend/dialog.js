@@ -64,7 +64,7 @@ function addProject(event) {
     }
 
     project['schedule-on'] = $('#schedule-option').val();
-    let data = ipcRenderer.sendSync('project-submit', project);
+    ipcRenderer.sendSync('project-submit', project);
 
     return false;
 }

@@ -1,5 +1,4 @@
 data/
 node_modules/
 .vscode/
-src/resources/jquery-3.4.1.min.js
 *.css.map

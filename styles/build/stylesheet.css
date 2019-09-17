@@ -5,6 +5,16 @@
     common.scss
     Defines common variables.
 */
+@font-face {
+  font-family: SourceSansPro;
+  src: url("../../fonts/SourceSansPro-Regular.ttf");
+  font-weight: 400;
+}
+@font-face {
+  font-family: SourceSansPro;
+  src: url("../../fonts/SourceSansPro-SemiBold.ttf");
+  font-weight: 600;
+}
 *:focus {
   outline-style: dashed;
   outline-color: rgba(0, 0, 0, 0.3);
@@ -21,7 +31,7 @@ html, body {
 
 body {
   background-color: #f0f2f4;
-  font-family: "Source Sans Pro", "sans-serif";
+  font-family: SourceSansPro, "sans-serif";
   color: #2b232f;
 }
 
@@ -61,6 +71,16 @@ body {
     common.scss
     Defines common variables.
 */
+@font-face {
+  font-family: SourceSansPro;
+  src: url("../../fonts/SourceSansPro-Regular.ttf");
+  font-weight: 400;
+}
+@font-face {
+  font-family: SourceSansPro;
+  src: url("../../fonts/SourceSansPro-SemiBold.ttf");
+  font-weight: 600;
+}
 .headline {
   color: #19111d;
   font-weight: 600;
@@ -314,6 +334,7 @@ select:hover {
   height: 100%;
   width: 100%;
   display: flex;
+  font-family: SourceSansPro, "sans-serif";
 }
 #first-run form {
   margin: auto;
@@ -337,6 +358,16 @@ select:hover {
     common.scss
     Defines common variables.
 */
+@font-face {
+  font-family: SourceSansPro;
+  src: url("../../fonts/SourceSansPro-Regular.ttf");
+  font-weight: 400;
+}
+@font-face {
+  font-family: SourceSansPro;
+  src: url("../../fonts/SourceSansPro-SemiBold.ttf");
+  font-weight: 600;
+}
 #new-task {
   background-image: linear-gradient(#ff0541, #ff5005);
 }
@@ -365,6 +396,16 @@ select:hover {
     common.scss
     Defines common variables.
 */
+@font-face {
+  font-family: SourceSansPro;
+  src: url("../../fonts/SourceSansPro-Regular.ttf");
+  font-weight: 400;
+}
+@font-face {
+  font-family: SourceSansPro;
+  src: url("../../fonts/SourceSansPro-SemiBold.ttf");
+  font-weight: 600;
+}
 #new-task-dialog {
   position: relative;
   width: 500px;
@@ -440,6 +481,16 @@ select:hover {
     common.scss
     Defines common variables.
 */
+@font-face {
+  font-family: SourceSansPro;
+  src: url("../../fonts/SourceSansPro-Regular.ttf");
+  font-weight: 400;
+}
+@font-face {
+  font-family: SourceSansPro;
+  src: url("../../fonts/SourceSansPro-SemiBold.ttf");
+  font-weight: 600;
+}
 .task-box {
   background-color: #ffffff;
   width: 90%;

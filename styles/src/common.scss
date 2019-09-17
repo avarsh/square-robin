@@ -21,8 +21,20 @@ $outline-hover: rgba(0, 0, 0, 0.4);
 $blackout:      rgba(0, 0, 0, 0.5);
 $dialog-bg:     $bg;
 
+@font-face {
+    font-family: SourceSansPro;
+    src: url('../../fonts/SourceSansPro-Regular.ttf');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: SourceSansPro;
+    src: url('../../fonts/SourceSansPro-SemiBold.ttf');
+    font-weight: 600;
+}
+
 // Fonts
-$font: 'Source Sans Pro', 'sans-serif';
+$font: SourceSansPro, 'sans-serif';
 
 // Shapes
 $border-radius: 4px;

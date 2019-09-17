@@ -36,7 +36,7 @@ body {
 }
 
 .blackout {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
@@ -475,6 +475,10 @@ select:hover {
   bottom: 0;
   margin-right: 12px;
   margin-bottom: 12px;
+}
+
+.task-type-icon {
+  height: 75px;
 }
 
 /*

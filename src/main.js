@@ -75,7 +75,7 @@ class Application {
             modal: true,
             show: false,
             width: 500,
-            height: 380,
+            height: 330,
             webPreferences: {
                 nodeIntegration: true
             }

@@ -20,6 +20,8 @@ $(window).on('load', () => {
     $('#all-tasks-container').hide();
     $('#no-tasks-container-all').hide();
 
+    $('.subtask-container').hide();
+
     // Configure UI elements
     setupUI();
 
@@ -206,32 +208,28 @@ function generationRequest(event) {
 }
 
 function checkboxClicked(event) {
-    $(event.target).toggleClass('checked');
-    let completed = $(event.target).hasClass('checked');
+    let completed = !($(event.target).hasClass('checked'));
     let curr = event.target;
     while (!$(curr).hasClass('task-box')) {
         curr = $(curr).parent();
     }
 
-    $(curr).attr('data-completed', completed);
-    let parent = $(curr).parent().attr('id');
     let id = $(curr).attr('data-id');
-    queueRemoval(parent, id, completed);
+    queueRemoval(id, completed);
+    $('.task-box[data-id="' + id + '"]').each(function(idx, element) {
+        $(element).find('.checkbox-container').each((j, checkbox) => {
+            $(checkbox).toggleClass('checked');
+        });
+
+        $(element).attr('data-completed', completed);
+    });
 }
 
-function queueRemoval(parent, id, completed) {
+function queueRemoval(id, completed) {
     // Queue for removal in backend
-    if (parent == 'daily-tasks-container') {
-        if (completed) {
-            ipcRenderer.sendSync('daily-remove-request', id);
-        } else {
-            ipcRenderer.sendSync('daily-remove-cancel', id);
-        }
-    } else if (parent == 'all-tasks-container') {
-        if (completed) {
-            ipcRenderer.sendSync('task-remove-request', id);
-        } else {
-            ipcRenderer.sendSync('task-remove-cancel', id);
-        }
+    if (completed) {
+        ipcRenderer.sendSync('task-remove-request', id);
+    } else {
+        ipcRenderer.sendSync('task-remove-cancel', id);
     }
 }

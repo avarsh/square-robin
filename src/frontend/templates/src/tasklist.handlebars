@@ -30,5 +30,38 @@
                 </td>
             </tr>
         </table>
+
+        <div class="subtask-container">
+            {{#each subtasks}}
+                <div class="subtask-box">
+                    <table>
+                        <tr>
+                            <td class="task-checkbox-col">
+                                <div class="checkbox-container">
+                                </div>
+                            </td>
+
+                            <td class="task-desc-col">
+                                <div class="task-description">{{description}}</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            {{/each}}   
+
+            <div class="subtask-add">
+                <table>
+                    <tr>
+                        <td class="subtask-add-col">
+                            <div class="add-button"></div>
+                        </td>
+
+                        <td class="task-placeholder">
+                            <input type="text">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 {{/each}}

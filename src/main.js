@@ -166,6 +166,7 @@ class Application {
         args['status'] = 'normal';
         args['times-scheduled'] = 0;
         args['completed'] = false;
+        args['subtasks'] = []
     
         let tasks = this.store.get('tasks');
         tasks.push(args);
@@ -275,9 +276,9 @@ ipcMain.on('user-info-input', (event, args) => inst.onUserInfoInput(event, args)
 ipcMain.on('project-submit', (event, args) => inst.onProjectSubmit(event, args));
 
 ipcMain.on('task-remove-request', (event, args) => inst.onTaskRemove(event, args));
-ipcMain.on('daily-remove-request', (event, args) => inst.onDailyRemove(event, args));
+//ipcMain.on('daily-remove-request', (event, args) => inst.onDailyRemove(event, args));
 ipcMain.on('task-remove-cancel', (event, args) => inst.onTaskRemoveCancel(event, args));
-ipcMain.on('daily-remove-cancel', (event, args) => inst.onDailyRemoveCancel(event, args));
+//ipcMain.on('daily-remove-cancel', (event, args) => inst.onDailyRemoveCancel(event, args));
 
 ipcMain.on('daily-list-request', (event, args) => inst.onDailyListRequest(event, args));
 ipcMain.on('show-task-dialog', (event, args) => inst.onTaskDialogRequest(event, args));

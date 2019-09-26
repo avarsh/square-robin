@@ -54,6 +54,12 @@
         .task-description {
             text-decoration: line-through;
         }
+
+        .subtask-container {
+            .task-description {
+                text-decoration: none;
+            }
+        }
     }
 
     .task-size-col {
@@ -86,6 +92,56 @@
                 div {
                     background-color: $size-marathon;
                 }
+            }
+        }
+    }
+
+    .subtask-container {
+
+        width: 90%;
+        margin-left: 24px;
+        display: none;
+
+        .subtask-add-button {
+            width: 24px;
+            height: 24px;
+            border-radius: 32px;
+            background-image: url('../../icons/new-small.png');
+            background-size: 12px;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            transition: 100ms ease-in;
+
+            &:hover {
+                background-color: transparentize($outline-color, 0.05);
+            }
+        }
+
+        .task-input input {
+            font-size: 0.9em;
+            color: transparentize($text, 0.1);
+            box-shadow: none;
+            border: none;
+            width: 80%;
+
+            &::placeholder {
+                font-style: italic;
+            }
+        }
+
+        .subtask-add-col {
+            width: 20px;
+        }
+
+        .subtask-box[data-completed=true] {
+            .checkbox-container {
+                @extend .checkbox-container, .checked;
+                @extend .checkbox-container, :active;
+            }
+
+            .task-description {
+                text-decoration: line-through;
             }
         }
     }

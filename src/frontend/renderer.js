@@ -20,13 +20,13 @@ $(window).on('load', () => {
     $('#all-tasks-container').hide();
     $('#no-tasks-container-all').hide();
 
-    $('.subtask-container').hide();
-
     // Configure UI elements
     setupUI();
+    setupTaskList();
 
     // Add precompiled templates
     createTemplates();
+    Handlebars.registerPartial('subtasks', Handlebars.templates['subtasks']);
 
     // Set up callbacks
     $("#name-submit").click(onNameInput);
@@ -37,6 +37,7 @@ $(window).on('load', () => {
     $('#all-tasks-add').click(showProjectDialog);
     $('#daily-generate-tasks').click(generationRequest);
     $('#name-submit').prop("disabled", true);
+    
 
     $('#name-input').on('input', () => {
         if ($('#name-input').val().length == 0) {
@@ -89,6 +90,17 @@ function setupUI() {
     $('.tooltip-text').hide();
 }
 
+function setupTaskList() {
+    $('.task-container').on("click", '.task-box', expandTaskbox);
+    $('.task-container').on("click", '.task-box > table .task-checkbox-col > .checkbox-container', checkboxClicked);
+    $('.task-container').on("click", '.task-input input', (event) => {
+        event.stopPropagation();
+    });
+
+    $('.task-container').on("click", '.subtask-add-button', addSubtask);
+    $('.task-container').on("click", '.subtask-container .checkbox-container', subtaskChecked);
+}
+
 
 function onNameInput() {
     // TODO: Input validation
@@ -130,13 +142,27 @@ function hideAllDaily() {
     $('#all-done-container').hide();
 }
 
+function getTaskWithId(id, tasks) {
+    for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i]['id'] == id) {
+            return tasks[i];
+        }
+    }
+
+    return null;
+}
+
 function fillDailyView(data) {
-    $('#daily-tasks-container').html(Handlebars.templates['tasklist'](dateHandler.convertTaskListForHuman(data['daily'])));
+    let dailyList = [];
+    //alert(JSON.stringify(data['daily']));
+    //alert(data['daily'].length);
+    data['daily'].forEach((id, idx, arr) => {
+        dailyList.push(getTaskWithId(id, data['tasks']));
+    });
+
+    $('#daily-tasks-container').html(Handlebars.templates['tasklist'](dateHandler.convertTaskListForHuman(dailyList)));
     hideAllDaily();
     $('#daily-tasks-container').show();
-
-    // Checkmarks 
-    $('.checkbox-container').click(checkboxClicked);
     
 }
 
@@ -188,7 +214,6 @@ function reloadTasks(data) {
     );
 
     $('#all-tasks-container').show();
-    $('.checkbox-container').click(checkboxClicked);
 }
 
 function generationRequest(event) {
@@ -199,8 +224,7 @@ function generationRequest(event) {
      */
 
     if ($('#all-tasks-container').children('[data-completed="false"]').length != 0) {
-        data = []
-        data['daily'] = ipcRenderer.sendSync('daily-list-request', null);
+        let data = ipcRenderer.sendSync('daily-list-request', null);
         fillDailyView(data);
     } else {
         ipcRenderer.send('show-error', {title: 'No Tasks Available', message: 'Try adding some more.'})
@@ -210,19 +234,36 @@ function generationRequest(event) {
 function checkboxClicked(event) {
     let completed = !($(event.target).hasClass('checked'));
     let curr = event.target;
-    while (!$(curr).hasClass('task-box')) {
-        curr = $(curr).parent();
-    }
+    curr = $(curr).closest('.task-box');
 
     let id = $(curr).attr('data-id');
     queueRemoval(id, completed);
     $('.task-box[data-id="' + id + '"]').each(function(idx, element) {
-        $(element).find('.checkbox-container').each((j, checkbox) => {
-            $(checkbox).toggleClass('checked');
-        });
-
+        let checkbox = $(element).find('.checkbox-container').first();
+        $(checkbox).toggleClass('checked');
         $(element).attr('data-completed', completed);
     });
+
+    event.stopPropagation();
+}
+
+
+function subtaskChecked(event) {
+    event.stopPropagation();
+    let localBox = $(event.target).closest('.subtask-box');
+    let index = $(localBox).attr('data-id');
+    let completed = ($(localBox).attr('data-completed') == 'false');
+
+    let taskbox = $(event.target).closest('.task-box');
+    let id = $(taskbox).attr('data-id');
+    
+    $('.task-box[data-id="' + id + '"]').each(function(idx, element) {
+        let subtaskBox = $(element).find('.subtask-box[data-id="' + index + '"]');
+        $(subtaskBox).attr('data-completed', completed);
+    });
+
+
+    ipcRenderer.sendSync('complete-subtask', {'completed': completed, 'id':id, 'index':index});
 }
 
 function queueRemoval(id, completed) {
@@ -232,4 +273,31 @@ function queueRemoval(id, completed) {
     } else {
         ipcRenderer.sendSync('task-remove-cancel', id);
     }
+}
+
+function expandTaskbox() {
+    $(this).find('.subtask-container').each((idx, element) => {
+        $(element).slideToggle(200);
+    });
+}
+
+function addSubtask(event) {
+    event.stopPropagation();
+
+    let button = event.target;
+    let taskbox = $(button).closest('.task-box');
+    args = {};
+    let id = $(taskbox).attr('data-id');
+    args['id'] = id;
+    let input = $(taskbox).find('.task-input').first().children('input').first();
+    args['description'] = $(input).val();
+    let data = ipcRenderer.sendSync('add-subtask', args);
+    
+    $('.task-box[data-id="' + id + '"]')
+        .find('.subtask-container')
+        .html(
+            Handlebars.templates['subtasks'](
+                getTaskWithId(id, data['tasks'])
+            )
+    );
 }

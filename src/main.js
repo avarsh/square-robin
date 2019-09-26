@@ -49,9 +49,18 @@ class Application {
 
         this.window = null;
         this.tasksToRemove = []
-        this.dailyToRemove = []
         this.idCounter = 0;
         this.sizeFactor = {'quick' : 1/7, 'long' : 3/7, 'marathon' : 1};
+    }
+
+    getTaskWithId(id, tasks) {
+        for (let i = 0; i < tasks.length; i++) {
+            if (tasks[i]['id'] == id) {
+                return tasks[i];
+            }
+        }
+    
+        return null;
     }
 
     createWindow() {
@@ -115,13 +124,7 @@ class Application {
                 // Tasks which are completed should be removed from both
                 // all tasks and the daily tasks
                 removeFromArrayWithKey(tasks, id, 'id');
-                removeFromArrayWithKey(daily, id, 'id');
-            });
-
-            this.dailyToRemove.forEach((id, idx, arr) => {
-                // Tasks which have been completed *for today* 
-                // should only be removed from today's todos
-                removeFromArrayWithKey(daily, id, 'id');
+                removeFromArray(daily, id, 'id');
             });
     
             this.store.set('tasks', tasks);
@@ -165,7 +168,7 @@ class Application {
         args['date-inputed'] = dateHandler.todayStr;
         args['status'] = 'normal';
         args['times-scheduled'] = 0;
-        args['completed'] = false;
+        args['completed'] = false; // TODO: This is currently not used
         args['subtasks'] = []
     
         let tasks = this.store.get('tasks');
@@ -180,23 +183,42 @@ class Application {
         event.returnValue = true;
     }
 
-    onDailyRemove(event, args) {
-        this.dailyToRemove.push(args);
-        event.returnValue = true;
-    }
-
     onTaskRemoveCancel(event, args) {
         event.returnValue = removeFromArray(this.tasksToRemove, args);
         event.returnValue = true;
     }
 
-    onDailyRemoveCancel(event, args) {
-        event.returnValue = removeFromArray(this.dailyToRemove, args);
+    onTaskDialogRequest(event, args) {
+        this.taskDialog.show();
         event.returnValue = true;
     }
 
-    onTaskDialogRequest(event, args) {
-        this.taskDialog.show();
+    onSubtaskAdd(event, args) {
+        let tasks = this.store.get('tasks');
+        let subtask = {};
+        subtask['description'] = args['description'];
+        subtask['completed'] = false;
+        for (let i = 0; i < tasks.length; i++) {
+            if (tasks[i]['id'] == args['id']) {
+                tasks[i]['subtasks'].push(subtask);
+            }
+        }
+
+        this.store.set('tasks', tasks);
+
+        event.returnValue = this.store.data;
+    }
+
+    onSubtaskComplete(event, args) {
+        let tasks = this.store.get('tasks');
+        for (let i = 0; i < tasks.length; i++) {
+            if (tasks[i]['id'] == args['id']) {
+                tasks[i]['subtasks'][parseInt(args['index'])]['completed'] = args['completed'];
+            }
+        }
+
+        this.store.set('tasks', tasks);
+
         event.returnValue = true;
     }
     
@@ -206,7 +228,7 @@ class Application {
         let daily = [];
         tasks.forEach((task, idx, arr) => {
             if (task['status'] == 'urgent') {
-                daily.push(task);
+                daily.push(task['id']);
             } else {
                 let due = new Date(task['date']);
                 let timeDiff = due.getTime() - dateHandler.today.getTime();
@@ -215,7 +237,7 @@ class Application {
                 twentyPercent = (twentyPercent / (1000 * 3600 * 24)) * 0.2;
                 if (daysDiff <= Math.max(3, twentyPercent) * (1 + this.sizeFactor[task['size']]) &&
                     this.canBeScheduled(task['schedule-on'])) {
-                    daily.push(task);
+                    daily.push(task['id']);
                     task['status'] = 'urgent';
                 }
             }
@@ -246,7 +268,7 @@ class Application {
 
             let i = 0;
             while(daily.length <= Math.min(4, potential.length - 1 + daily.length)) {
-                daily.push(potential[i]);
+                daily.push(potential[i]['id']);
                 i++;
             }
         }
@@ -257,7 +279,7 @@ class Application {
         this.store.set('tasks', tasks);
         this.store.set('daily', daily);
 
-        event.returnValue = daily;
+        event.returnValue = this.store.data;
     }
 }
 
@@ -276,12 +298,13 @@ ipcMain.on('user-info-input', (event, args) => inst.onUserInfoInput(event, args)
 ipcMain.on('project-submit', (event, args) => inst.onProjectSubmit(event, args));
 
 ipcMain.on('task-remove-request', (event, args) => inst.onTaskRemove(event, args));
-//ipcMain.on('daily-remove-request', (event, args) => inst.onDailyRemove(event, args));
 ipcMain.on('task-remove-cancel', (event, args) => inst.onTaskRemoveCancel(event, args));
-//ipcMain.on('daily-remove-cancel', (event, args) => inst.onDailyRemoveCancel(event, args));
 
 ipcMain.on('daily-list-request', (event, args) => inst.onDailyListRequest(event, args));
 ipcMain.on('show-task-dialog', (event, args) => inst.onTaskDialogRequest(event, args));
+
+ipcMain.on('add-subtask', (event, args) => inst.onSubtaskAdd(event, args));
+ipcMain.on('complete-subtask', (event, args) => inst.onSubtaskComplete(event, args));
 
 ipcMain.on('show-error', (event, args) => {
     dialog.showErrorBox(args['title'], args['message']);

@@ -39,9 +39,9 @@ class DateHandler {
     }
 
     convertTaskListForHuman(tasks) {
-        tasks.forEach((task, idx, arr) => {
-            task['date'] = this.convertForHuman(task['date']);
-        });
+        for (let i = 0; i < tasks.length; i++) {
+            tasks[i]['date-formatted'] = this.convertForHuman(tasks[i]['date']);
+        }
 
         return tasks;
     }

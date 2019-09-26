@@ -128,8 +128,9 @@ button:hover {
   background-color: #ffffff;
   box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.2);
 }
-.button:active,
-button:active {
+.button:active, .task-box .subtask-container .subtask-box[data-completed=true] .button.checkbox-container,
+button:active,
+.task-box .subtask-container .subtask-box[data-completed=true] button.checkbox-container {
   background-color: #d8dee3;
 }
 
@@ -308,20 +309,20 @@ select:hover {
   background-color: #ff3333;
 }
 
-.checkbox-container {
+.checkbox-container, .task-box .subtask-container .subtask-box[data-completed=true] .checkbox-container {
   width: 16px;
   height: 16px;
   border-radius: 35px;
   border: solid 2px rgba(0, 0, 0, 0.2);
   transition: 100ms ease-in;
 }
-.checkbox-container:hover {
+.checkbox-container:hover, .task-box .subtask-container .subtask-box[data-completed=true] .checkbox-container:hover {
   border-color: rgba(0, 0, 0, 0.4);
 }
-.checkbox-container:active, .checkbox-container.checked {
+.checkbox-container:active, .task-box .subtask-container .subtask-box[data-completed=true] .checkbox-container, .checkbox-container.checked {
   border-color: #21eb17;
 }
-.checkbox-container.checked {
+.checkbox-container.checked, .task-box .subtask-container .subtask-box[data-completed=true] .checkbox-container {
   background-image: url("../../icons/tick.png");
   background-repeat: no-repeat;
   background-position: center;
@@ -540,6 +541,9 @@ select:hover {
 .task-box[data-completed=true] .task-description {
   text-decoration: line-through;
 }
+.task-box[data-completed=true] .subtask-container .task-description {
+  text-decoration: none;
+}
 .task-box .task-size-col {
   white-space: nowrap;
 }
@@ -562,6 +566,40 @@ select:hover {
 }
 .task-box .task-size-col .task-size-container[data-size=marathon] div {
   background-color: #ff3226;
+}
+.task-box .subtask-container {
+  width: 90%;
+  margin-left: 24px;
+  display: none;
+}
+.task-box .subtask-container .subtask-add-button {
+  width: 24px;
+  height: 24px;
+  border-radius: 32px;
+  background-image: url("../../icons/new-small.png");
+  background-size: 12px;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: 100ms ease-in;
+}
+.task-box .subtask-container .subtask-add-button:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+.task-box .subtask-container .task-input input {
+  font-size: 0.9em;
+  color: rgba(43, 35, 47, 0.9);
+  box-shadow: none;
+  border: none;
+  width: 80%;
+}
+.task-box .subtask-container .task-input input::placeholder {
+  font-style: italic;
+}
+.task-box .subtask-container .subtask-add-col {
+  width: 20px;
+}
+.task-box .subtask-container .subtask-box[data-completed=true] .task-description {
+  text-decoration: line-through;
 }
 
 /*# sourceMappingURL=stylesheet.css.map */

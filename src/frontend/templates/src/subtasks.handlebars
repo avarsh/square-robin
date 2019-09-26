@@ -1,0 +1,30 @@
+{{#each subtasks}}
+    <div class="subtask-box" data-completed="{{completed}}" data-id="{{@index}}">
+        <table>
+            <tr>
+                <td class="task-checkbox-col">
+                    <div class="checkbox-container">
+                    </div>
+                </td>
+
+                <td class="task-desc-col">
+                    <div class="task-description">{{description}}</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+{{/each}}
+
+<div class="subtask-add">
+    <table>
+        <tr>
+            <td class="subtask-add-col">
+                <div class="subtask-add-button"></div>
+            </td>
+
+            <td class="task-input">
+                <input type="text" placeholder="Add a task">
+            </td>
+        </tr>
+    </table>
+</div>

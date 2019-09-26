@@ -29,8 +29,20 @@ class DateHandler {
         ];
     }
 
+    isEqual(lhs, rhs) {
+        return (
+          lhs.getFullYear() === rhs.getFullYear() &&
+          lhs.getMonth() === rhs.getMonth() &&
+          lhs.getDate() === rhs.getDate()
+        );
+      }
+
     convertForHuman(iso) {
         let dateObj = new Date(iso);
+        if (this.isEqual(dateObj, this.today)) {
+            return "Today";
+        }
+        
         let day = this.days[dateObj.getDay()];
         let date = dateObj.getDate();
         let month = this.months[dateObj.getMonth()];

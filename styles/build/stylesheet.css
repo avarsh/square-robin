@@ -538,6 +538,10 @@ select:hover {
   font-size: 0.95em;
   white-space: nowrap;
 }
+.task-box[data-status=urgent] .task-date-container {
+  background-color: #ff3333;
+  color: white;
+}
 .task-box[data-completed=true] .task-description {
   text-decoration: line-through;
 }
@@ -546,6 +550,7 @@ select:hover {
 }
 .task-box .task-size-col {
   white-space: nowrap;
+  user-select: none;
 }
 .task-box .task-size-col .task-size-container {
   width: 64px;
@@ -559,13 +564,13 @@ select:hover {
   margin-left: 4px;
 }
 .task-box .task-size-col .task-size-container[data-size=quick] .size-circle-left {
-  background-color: #0de46c;
+  background-color: #208eff;
 }
 .task-box .task-size-col .task-size-container[data-size=long] .size-circle-left, .task-box .task-size-col .task-size-container[data-size=long] .size-circle-middle {
-  background-color: #ff9b1d;
+  background-color: #208eff;
 }
 .task-box .task-size-col .task-size-container[data-size=marathon] div {
-  background-color: #ff3226;
+  background-color: #208eff;
 }
 .task-box .subtask-container {
   width: 90%;

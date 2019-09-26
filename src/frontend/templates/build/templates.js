@@ -30,6 +30,8 @@ templates['tasklist'] = template({"1":function(container,depth0,helpers,partials
     + alias4(((helper = (helper = helpers.completed || (depth0 != null ? depth0.completed : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"completed","hash":{},"data":data}) : helper)))
     + "\" data-id=\""
     + alias4(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\" data-status=\""
+    + alias4(((helper = (helper = helpers.status || (depth0 != null ? depth0.status : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"status","hash":{},"data":data}) : helper)))
     + "\">\n        <table>\n            <tr>\n                <!--The checkbox to complete it for the day-->\n                <td class=\"task-checkbox-col\">\n                    <div class=\"checkbox-container\">\n                    </div>\n                </td>\n                \n                <!--Task description-->\n                <td class=\"task-desc-col\">\n                    <divs class=\"task-description\">"
     + alias4(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data}) : helper)))
     + "</div>\n                </td>\n\n                <!--Task size indicator-->\n                <td class=\"task-size-col\">\n                    <div class=\"task-size-container\" data-size=\""

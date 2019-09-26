@@ -50,6 +50,13 @@
         }
     }
 
+    &[data-status="urgent"] {
+        .task-date-container {
+            background-color: $urgent;
+            color: white;
+        }
+    }
+
     &[data-completed=true] {
         .task-description {
             text-decoration: line-through;
@@ -64,6 +71,7 @@
 
     .task-size-col {
         white-space: nowrap;
+        user-select: none;
         .task-size-container {
             width: 64px;
 
@@ -78,19 +86,19 @@
 
             &[data-size="quick"] {
                 .size-circle-left {
-                    background-color: $size-quick;
+                    background-color: $accent;
                 }
             }
 
             &[data-size="long"] {
                 .size-circle-left, .size-circle-middle {
-                    background-color: $size-long;
+                    background-color: $accent;
                 }
             }
 
             &[data-size="marathon"] {
                 div {
-                    background-color: $size-marathon;
+                    background-color: $accent;
                 }
             }
         }

@@ -5,6 +5,16 @@ const DateHandler = require('./utils/date');
 window.$ = window.jQuery = require('./resources/jquery-3.4.1.min.js');
 const dateHandler = new DateHandler();
 
+class StateManager {
+
+    constructor() {
+        this.daily = "none";
+        this.all = "none";
+    }
+}
+
+const state = new StateManager();
+
 $(window).on('load', () => {
     // Firstly we hide all elements
     $('#first-run').hide();
@@ -51,20 +61,7 @@ $(window).on('load', () => {
         $('.blackout').fadeOut(100);
     });
 
-    ipcRenderer.on('project-submit', (event, data) => {
-        reloadTasks(data);
-        $('#no-tasks-container-all').hide();
-
-        // After adding a task we may need to update the daily view
-        if ((!$('#daily-tasks-container').is(':visible') ||
-            $('#daily-tasks-container').is(':hidden')) && (
-            !$('#all-done-container').is(':visible') ||
-            $('#all-done-container').is(':hidden'))) {
-
-            $('#no-tasks-container-daily').hide();
-            $('#none-generated-container').show();
-        }
-    });
+    ipcRenderer.on('project-submit', onProjectSubmit);
 
     // We try to get the user data
     let userData = ipcRenderer.sendSync('user-data-request', null);
@@ -163,7 +160,7 @@ function fillDailyView(data) {
     $('#daily-tasks-container').html(Handlebars.templates['tasklist'](dateHandler.convertTaskListForHuman(dailyList)));
     hideAllDaily();
     $('#daily-tasks-container').show();
-    
+    state.daily = "daily-tasks";    
 }
 
 function loadDefaultView() {
@@ -178,17 +175,21 @@ function loadDefaultView() {
         $('#no-tasks-container-daily').show();
 
         switchViews('tasks');
+        state.daily = "none";
+        state.all = "none";
     } else {
         // There are tasks in the system, so fill up the all task list
         $('#all-tasks-container').html(Handlebars.templates['tasklist'](
             dateHandler.convertTaskListForHuman(data['tasks'])));
         $('#all-tasks-container').show();
+        state.all = "all";
 
         if (data['timestamp'] == dateHandler.todayStr) {
             // If we have generated tasks today
             if (data['daily'].length == 0) {
                 // But if the user has completed them all
                 $('#all-done-container').show();
+                state.daily = "all-done";
             } else {
                 // If the user hasn't completed them all,
                 // show them
@@ -214,6 +215,19 @@ function reloadTasks(data) {
     );
 
     $('#all-tasks-container').show();
+    state.all = "all";
+}
+
+function onProjectSubmit(event, data) {
+    reloadTasks(data);
+    $('#no-tasks-container-all').hide();
+
+    // After adding a task we may need to update the daily view
+    if (state.daily != "daily-tasks") {
+        $('#no-tasks-container-daily').hide();
+        $('#none-generated-container').show();
+        state.daily = "none-generated";
+    }
 }
 
 function generationRequest(event) {

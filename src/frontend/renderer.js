@@ -122,7 +122,7 @@ function getTaskWithId(id, tasks) {
 function fillDailyView(data) {
     let dailyList = [];
     //alert(JSON.stringify(data['daily']));
-    //alert(data['daily'].length);
+    //alert(data['daily']);
     data['daily'].forEach((id, idx, arr) => {
         dailyList.push(getTaskWithId(id, data['tasks']));
     });
@@ -135,7 +135,7 @@ function fillDailyView(data) {
 
     hideAllDaily();
     $('#daily-tasks-container').show();
-    state.daily = "daily-tasks";    
+    state.daily = "daily-tasks";
 }
 
 function loadDefaultView() {
@@ -160,6 +160,7 @@ function loadDefaultView() {
 
         if (data['timestamp'] == dateHandler.todayStr) {
             // If we have generated tasks today
+            //alert(data['daily']);
             if (data['daily'].length == 0) {
                 // But if the user has completed them all
                 $('#all-done-container').show();
@@ -171,7 +172,7 @@ function loadDefaultView() {
             }
         } else {
             // We haven't generated tasks today
-            data['daily'] = ipcRenderer.sendSync('daily-list-request', null);
+            data = ipcRenderer.sendSync('daily-list-request', null);
             fillDailyView(data);
         }
 

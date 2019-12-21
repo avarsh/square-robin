@@ -40,7 +40,6 @@ class Application {
         this.store = new Store({
             configName: 'data',
             defaults: {
-                username: '',
                 tasks: [],
                 daily: [],
                 timestamp: ''
@@ -240,10 +239,8 @@ class Application {
                 return (s['times-scheduled'] / effort1) - (t['times-scheduled'] / effort2);
             });
 
-            let i = 0;
-            while(daily.length <= Math.min(4, potential.length - 1 + daily.length)) {
+            while(daily.length <= Math.min(4, potential.length)) {
                 daily.push(potential[i]['id']);
-                i++;
             }
         }
 

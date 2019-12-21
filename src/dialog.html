@@ -21,19 +21,9 @@
                     <td>
                         <div class="input-cell tooltip error">
                             <input type="text" id="project-desc" required>
-                            <span class="tooltip-text" id="no-desc-err">Please describe the project.</span>
+                            <span class="tooltip-text" id="no-desc-err">Please describe the task</span>
                         </div>
                     </td>
-                </tr>
-
-                <!--When the project is due-->
-                <tr>
-                    <td>Due Date</td>
-                    <td>
-                        <div class="tooltip error">
-                            <input type="date" id="project-due-date" required>
-                            <span class="tooltip-text" id="no-date-err">Please add a due date.</span>
-                        </div>
                 </tr>
 
                 <!--The size of the project-->
@@ -47,9 +37,31 @@
                         </div>
                     </td>
                 </tr>
+
+                <tr>
+                    <td>Deadline</td>
+                    <td>
+                        <label class="switch" id="deadline-switch">
+                            <input id="deadline-switch-check" type="checkbox" checked="true">
+                            <span class="switch-slider"></span>
+                        </label>
+                    </td>
+                </tr>
+
+                <!--When the project is due-->
+                <tr id="due-date-row">
+                    <td>Due Date</td>
+                    <td>
+                        <div class="tooltip error">
+                            <input type="date" id="project-due-date" required>
+                            <span class="tooltip-text" id="no-date-err">Please add a due date.</span>
+                        </div>
+                    </td>
+                </tr>
+
            </table>
 
-            <button class="constructive" id="new-project-accept">Add Project</button>
+            <button class="constructive" id="new-project-accept">Add Task</button>
         </form>
     </body>
 </html>

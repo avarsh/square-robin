@@ -197,7 +197,7 @@ function onProjectSubmit(event, data) {
     $('#no-tasks-container-all').hide();
 
     // After adding a task we may need to update the daily view
-    if (state.daily != "daily-tasks") {
+    if (state.daily != "daily-tasks" && state.daily != "all-done") {
         $('#no-tasks-container-daily').hide();
         $('#none-generated-container').show();
         state.daily = "none-generated";

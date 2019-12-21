@@ -11,10 +11,12 @@ $(window).on('load', () => {
     });
 
     $('#new-project-accept').click(addProject);
+    $('#deadline-switch-check').click(toggleDateSelector);
 });
 
 ipcRenderer.on('show', () => {
     $('#project-details-form').trigger('reset');
+    $('#deadline-switch-check').prop('checked', true);
     $('.tooltip-text').hide();
     $('#project-details-form').show();
 });
@@ -28,7 +30,8 @@ function projectInputValid() {
         $('#no-desc-err').fadeOut(200);
     }
 
-    if ($('#project-due-date').val() == "") {
+    if ($('#deadline-switch-check').is(':checked') && 
+            $('#project-due-date').val() == "") {
         $('#no-date-err').fadeIn(200);
         valid = false;
     } else {
@@ -38,6 +41,11 @@ function projectInputValid() {
     return valid;
 }
 
+function toggleDateSelector(event) {
+    $('#project-due-date').prop('disabled', !$('#deadline-switch-check').is(':checked'));
+
+    return true;
+}
 
 function addProject(event) {
     if (!projectInputValid()) {
@@ -46,7 +54,12 @@ function addProject(event) {
 
     let project = {};
     project['description'] = $('#project-desc').val();
-    project['date'] = $('#project-due-date').val();
+    if ($('#deadline-switch-check').is(':checked')) {
+        project['date'] = $('#project-due-date').val();
+    } else {
+        project['date'] = null;
+    }
+
     if ($('#quick-size').attr('data-selected') == 'true') {
         project['size'] = 'quick';
     } else if ($('#long-size').attr('data-selected') == 'true') {

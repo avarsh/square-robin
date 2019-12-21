@@ -38,6 +38,10 @@ class DateHandler {
       }
 
     convertForHuman(iso) {
+        if (iso == null) {
+            return "No Due Date";
+        }
+
         let dateObj = new Date(iso);
         if (this.isEqual(dateObj, this.today)) {
             return "Today";

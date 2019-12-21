@@ -57,6 +57,7 @@ body {
 
 .no-task-message {
   text-align: center;
+  padding-top: 24px;
 }
 .no-task-message .subtitle {
   padding-top: 12px;
@@ -131,7 +132,7 @@ button:hover {
 .button:active, .task-box .subtask-container .subtask-box[data-completed=true] .button.checkbox-container,
 button:active,
 .task-box .subtask-container .subtask-box[data-completed=true] button.checkbox-container {
-  background-color: #d8dee3;
+  background-color: #cdd3da;
 }
 
 .linked {
@@ -146,7 +147,7 @@ button:active,
   border-right: none;
 }
 .linked[data-selected=true] {
-  background-color: #d8dee3;
+  background-color: #cdd3da;
 }
 
 .icon-navbar {
@@ -188,7 +189,7 @@ button:active,
 .subtitle {
   font-weight: 600;
   color: rgba(43, 35, 47, 0.8);
-  font-size: 1em;
+  font-size: 1.1em;
 }
 
 .centered-dialog {
@@ -241,7 +242,7 @@ input[type=range] {
   appearance: none;
   width: 100%;
   height: 3px;
-  background-color: #d8dee3;
+  background-color: #cdd3da;
   outline: none;
 }
 .slider::-webkit-slider-thumb,
@@ -326,6 +327,45 @@ select:hover {
   background-image: url("../../icons/tick.png");
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.switch input:checked + .switch-slider {
+  background-color: #208eff;
+}
+.switch input:checked + .switch-slider:before {
+  transform: translateX(26px);
+}
+.switch .switch-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 34px;
+  background-color: #cdd3da;
+  transition: 150ms ease-in;
+}
+.switch .switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  transition: 150ms ease-in;
 }
 
 /*
@@ -415,34 +455,6 @@ select:hover {
   margin-top: -190px;
 }
 
-#task-type-selector {
-  width: 100%;
-  border-spacing: 24px;
-  border-collapse: separate;
-  padding-top: 10px;
-  height: 90%;
-}
-#task-type-selector td {
-  width: 30%;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  padding: 12px;
-  user-select: none;
-  transition: 100ms ease-in;
-}
-#task-type-selector td:hover {
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-#task-type-selector td h2 {
-  font-size: 1.2em;
-}
-#task-type-selector td div {
-  height: 100%;
-}
-
 #project-details-form {
   width: 100%;
 }
@@ -465,6 +477,9 @@ select:hover {
 }
 #project-details-form #project-details-table tr td:last-child {
   width: 75%;
+}
+#project-details-form #project-details-table tr[disabled] {
+  color: red;
 }
 #project-details-form #project-details-table input[type=text] {
   width: 90%;

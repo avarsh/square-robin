@@ -11,40 +11,6 @@ $dialog-height: 380px;
     margin-top: -($dialog-height / 2);
 }
 
-#task-type-selector {
-    width: 100%;
-    border-spacing: 24px;
-    border-collapse: separate;
-    padding-top: 10px;
-    height: 90%;
-
-    td {
-        width: 30%;
-        text-align: center;
-        background-color: transparentize($bg-raised, 0.4);
-        
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        border-radius: 4px;
-        
-        padding: 12px;
-        user-select: none;
-        transition: 100ms ease-in;
-
-        &:hover {
-            background-color: $bg-raised;
-            box-shadow: 0 2px 4px $outline-color;
-        }
-
-        h2 {
-            font-size: 1.2em;
-        }
-
-        div {
-            height: 100%;
-        }
-    }
-}
-
 #project-details-form {
     width: 100%;
     
@@ -79,7 +45,6 @@ $dialog-height: 380px;
     }
 
     button {
-
         &.constructive {
             position: absolute;
             right: 0;
@@ -89,8 +54,4 @@ $dialog-height: 380px;
             margin-bottom: 12px;
         }
     }
-}
-
-.task-type-icon {
-    height: 75px;
 }

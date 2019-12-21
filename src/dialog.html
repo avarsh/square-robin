@@ -12,35 +12,6 @@
     </head>
 
     <body>
-        <!--Selecting the task type-->
-        <table id="task-type-selector">
-            <tr>
-                <td>
-                <div id="instant-button" class="unavailable-button">
-                    <h2>Instant</h2>
-                    <img src="../icons/instant.png" class="task-type-icon">
-                    <p>A task that needs to be done on a specific date.</p>
-                </div>
-                </td>
-
-                <td> 
-                <div id="project-button" class="default-button">
-                    <h2>Project</h2>
-                    <img src="../icons/project.png" class="task-type-icon">
-                    <p class="task-type-description">A longer task with a deadline and several subtasks.</p>
-                </div>
-                </td>
-
-                <td>
-                <div id="hobby-button" class="unavailable-button">
-                    <h2>Hobby</h2>
-                    <img src="../icons/hobby.png" class="task-type-icon">
-                    <p>Work on a skill when you're less busy.</p>
-                </div>
-                </td>
-            </tr>
-        </table>
-
         <!--Project form-->
         <form id="project-details-form">
             <table id="project-details-table">
@@ -76,29 +47,7 @@
                         </div>
                     </td>
                 </tr>
-
-                <!--When it should be scheduled-->
-                <tr>
-                    <td>Schedule</td>
-                    <td>
-                        <select id="schedule-option">
-                            <option value="whenever">Whenever</option>
-                            <option value="weekdays">Only during weekdays</option>
-                            <option value="weekends">Only during weekends</option>
-                        </select> 
-                    </td>
-                </tr>
-
-                <!--How fun it is to do-->
-                <tr>
-                    <td>Funness</td>
-                    <td>
-                        <div id="fun-slider-container">
-                            <input type="range" class="slider" id="project-fun" min="1" max="10" value="5">
-                        </div>
-                    </td>
-                </tr>
-            </table>
+           </table>
 
             <button class="constructive" id="new-project-accept">Add Project</button>
         </form>

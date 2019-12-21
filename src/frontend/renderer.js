@@ -17,7 +17,6 @@ const state = new StateManager();
 
 $(window).on('load', () => {
     // Firstly we hide all elements
-    $('#first-run').hide();
     $('#default-view').hide();
     $('.blackout').hide();
 
@@ -39,23 +38,12 @@ $(window).on('load', () => {
     Handlebars.registerPartial('subtasks', Handlebars.templates['subtasks']);
 
     // Set up callbacks
-    $("#name-submit").click(onNameInput);
     $('#daily-btn').click(() => switchViews('daily'));
     $('#tasks-btn').click(() => switchViews('tasks'));
     $('#new-task').click(showProjectDialog);
     $('#daily-tasks-add').click(showProjectDialog);
     $('#all-tasks-add').click(showProjectDialog);
     $('#daily-generate-tasks').click(generationRequest);
-    $('#name-submit').prop("disabled", true);
-    
-
-    $('#name-input').on('input', () => {
-        if ($('#name-input').val().length == 0) {
-            $('#name-submit').prop("disabled", true);
-        } else {
-            $('#name-submit').prop("disabled", false);
-        }
-    });
 
     ipcRenderer.on('dialog-closed', () => {
         $('.blackout').fadeOut(100);
@@ -65,14 +53,9 @@ $(window).on('load', () => {
 
     // We try to get the user data
     let userData = ipcRenderer.sendSync('user-data-request', null);
-    if (userData === null) {
-        // We're on the first run
-        $('#first-run').show(150);
-    } else {
-        taskCount = userData['tasks'].length;
-        loadDefaultView();
-        $('#default-view').show(200);
-    }
+    taskCount = userData['tasks'].length;
+    loadDefaultView();
+    $('#default-view').show(200);
 });
 
 function setupUI() {
@@ -96,19 +79,6 @@ function setupTaskList() {
 
     $('.task-container').on("click", '.subtask-add-button', addSubtask);
     $('.task-container').on("click", '.subtask-container .checkbox-container', subtaskChecked);
-}
-
-
-function onNameInput() {
-    // TODO: Input validation
-    // Send the name to the backend
-    let name = $("#name-input").val();
-    ipcRenderer.sendSync('user-info-input', name);
-
-    // Hide first run view and show the default view
-    $('#first-run').hide(100);
-
-    loadDefaultView();
 }
 
 function switchViews(view) {
@@ -157,7 +127,12 @@ function fillDailyView(data) {
         dailyList.push(getTaskWithId(id, data['tasks']));
     });
 
-    $('#daily-tasks-container').html(Handlebars.templates['tasklist'](dateHandler.convertTaskListForHuman(dailyList)));
+    $('#daily-tasks-container').html(
+        Handlebars.templates['tasklist'](
+            dateHandler.convertTaskListForHuman(dailyList)
+        )
+    );
+
     hideAllDaily();
     $('#daily-tasks-container').show();
     state.daily = "daily-tasks";    
@@ -165,7 +140,6 @@ function fillDailyView(data) {
 
 function loadDefaultView() {
     let data = ipcRenderer.sendSync('user-data-request');
-    $('#greeting').html(Handlebars.templates['greeting']({ 'username': data['username'] }));
 
     hideAllDaily();
     if (data['tasks'].length == 0) {

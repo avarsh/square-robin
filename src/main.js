@@ -108,12 +108,10 @@ class Application {
             this.taskDialog = null;
         });
 
-        if (!this.store.firstRun) {
-            let tasks = this.store.get("tasks");
-            tasks.forEach((element, idx, arr) => {
-                this.idCounter = Math.max(this.idCounter, parseInt(element["id"]));
-            });
-        }
+        let tasks = this.store.get("tasks");
+        tasks.forEach((element, idx, arr) => {
+            this.idCounter = Math.max(this.idCounter, parseInt(element["id"]));
+        });
     }
     
     windowClose() {
@@ -134,30 +132,8 @@ class Application {
         }
     }
 
-    canBeScheduled(criteria) {
-        if (criteria == 'whenever') return true;
-
-        isWeekend = (dateHandler.today.getDay() == 0) || (dateHandler.today.getDay() == 6);
-        if (criteria == 'weekends' && isWeekend) {
-            return true;
-        }
-
-        if (criteria == 'weekdays' && !isWeekend) {
-            return true;
-        }
-
-        return false;
-    }
-
     onUserDataRequest(event, arg) {
-        if (this.store.firstRun) event.returnValue = null;
-        else event.returnValue = this.store.data;
-    }
-
-    onUserInfoInput(event, arg) {
-        this.store.set('username', arg);
-        this.store.firstRun = false;
-        event.returnValue = true;
+        event.returnValue = this.store.data;
     }
 
     onProjectSubmit(event, args) {
@@ -235,8 +211,7 @@ class Application {
                 let daysDiff = timeDiff / (1000 * 3600 * 24);
                 let twentyPercent = due.getTime() - (new Date(task['date-inputed'])).getTime();
                 twentyPercent = (twentyPercent / (1000 * 3600 * 24)) * 0.2;
-                if (daysDiff <= Math.max(3, twentyPercent) * (1 + this.sizeFactor[task['size']]) &&
-                    this.canBeScheduled(task['schedule-on'])) {
+                if (daysDiff <= Math.max(3, twentyPercent) * (1 + this.sizeFactor[task['size']])) {
                     daily.push(task['id']);
                     task['status'] = 'urgent';
                 }
@@ -246,8 +221,7 @@ class Application {
         if (daily.length < 5) {
             let potential = [];
             tasks.forEach((task, idx, arr) => {
-                if (task['status'] != 'urgent' && 
-                    this.canBeScheduled(task['schedule-on'])) {
+                if (task['status'] != 'urgent') {
                     potential.push(task);
                 }
             });
@@ -256,12 +230,12 @@ class Application {
                 let due = new Date(s['date']);
                 let timeDiff = due.getTime() - (new Date(s['date-inputed'])).getTime();
                 let weeksDiff = timeDiff / (1000 * 3600 * 24 * 7);
-                let effort1 = this.sizeFactor[s['size']] * weeksDiff * (1 + (1 / (2 * s['fun'])));
+                let effort1 = this.sizeFactor[s['size']] * weeksDiff;
 
                 due = new Date(t['date']);
                 timeDiff = due.getTime() - (new Date(t['date-inputed'])).getTime();
                 weeksDiff = timeDiff / (1000 * 3600 * 24 * 7);
-                let effort2 = this.sizeFactor[t['size']] * weeksDiff * (1 + (1 / (2 * t['fun'])));
+                let effort2 = this.sizeFactor[t['size']] * weeksDiff;
 
                 return (s['times-scheduled'] / effort1) - (t['times-scheduled'] / effort2);
             });
@@ -294,7 +268,6 @@ app.on('activate', () => {
 });
 
 ipcMain.on('user-data-request', (event, args) => inst.onUserDataRequest(event, args));
-ipcMain.on('user-info-input', (event, args) => inst.onUserInfoInput(event, args));
 ipcMain.on('project-submit', (event, args) => inst.onProjectSubmit(event, args));
 
 ipcMain.on('task-remove-request', (event, args) => inst.onTaskRemove(event, args));

@@ -10,22 +10,14 @@ $(window).on('load', () => {
         return true;
     });
 
-    $('#project-button').click(showProjectForm);
     $('#new-project-accept').click(addProject);
 });
 
 ipcRenderer.on('show', () => {
     $('#project-details-form').trigger('reset');
     $('.tooltip-text').hide();
-    $('#task-type-selector').show();
-    $('#project-details-form').hide();
+    $('#project-details-form').show();
 });
-
-function showProjectForm(event) {
-    $('#task-type-selector').fadeOut(100, function() {
-        $('#project-details-form').fadeIn(100);
-    });
-}
 
 function projectInputValid() {
     valid = true;
@@ -63,7 +55,6 @@ function addProject(event) {
         project['size'] = 'marathon';
     }
 
-    project['schedule-on'] = $('#schedule-option').val();
     ipcRenderer.sendSync('project-submit', project);
 
     return false;

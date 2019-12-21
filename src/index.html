@@ -12,17 +12,6 @@
     </head>
 
     <body>
-        <!--Takes input upon the first run-->
-        <div id="first-run" onsubmit="return false">
-            <form id="name-form" onsubmit="return false;">
-                <p class="headline">Hello there. What is your name?</p>
-                <input type="text" name="name-input" id="name-input">
-                <!--TODO: This button should be disabled until text is entered.-->
-                <button name="name-submit" id="name-submit">Let's Go</button>
-            </form>
-        </div>
-
-        <!--The normal view upon repeated runs-->
         <div id="default-view">
 
             <!--Navigation sidebar-->
@@ -46,7 +35,11 @@
             <!--The main view-->
             <div id="main">
                 <div id="daily-view">
-                    <div id="greeting"></div>
+                    <div id="greeting">
+                        <span class="headline">
+                            Here are your tasks for today.
+                        </span>
+                    </div>
 
                     <div class="separator"></div>
 

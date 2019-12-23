@@ -239,8 +239,10 @@ class Application {
                 return (s['times-scheduled'] / effort1) - (t['times-scheduled'] / effort2);
             });
 
-            while(daily.length <= Math.min(4, potential.length)) {
+            let i = 0;
+            while(daily.length <= Math.min(4, potential.length - 1)) {
                 daily.push(potential[i]['id']);
+                i++;
             }
         }
 

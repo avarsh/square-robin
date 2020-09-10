@@ -1,0 +1,12 @@
+@use 'widgets/misc';
+
+$font: "Fira Sans";
+
+body {
+  font-family: $font;
+  margin: 0;
+}
+
+h1 {
+  font-weight: normal;
+}

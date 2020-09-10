@@ -1,0 +1,15 @@
+.separator {
+  height: 1px;
+  background-color: #BDC0C1;
+}
+
+body {
+  font-family: "Fira Sans";
+  margin: 0;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+/*# sourceMappingURL=common.css.map */

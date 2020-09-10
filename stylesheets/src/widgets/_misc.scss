@@ -1,0 +1,6 @@
+@use '../colors';
+
+.separator {
+  height: 1px;
+  background-color: colors.$light-grey;
+}

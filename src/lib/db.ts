@@ -4,9 +4,9 @@ import { app } from "electron";
 import * as path from "path";
 import fs = require('fs');
 
-import { Task } from "../task";
-import { Either } from "../../lang/either";
-import { guard } from "../../lang/guard";
+import { Task } from "./task";
+import { Either } from "./functional/either";
+import { guard } from "./functional/guard";
 
 const configDir = app.getPath("userData");
 const dbFile = path.join(configDir, "database.json");

@@ -1,12 +1,16 @@
 import { State } from "../utils/state";
-import * as toFirstRun from "./first-run/transitions";
+import * as toTasks from "./tasks/transitions"
+import * as toDaily from "./daily/transitions";
 
-const nullView: string = "null-view"
-const firstRun: string = "first-run"
-const taskView: string = "task-view"
+const nullView:  string = "null-view"
+const tasksView: string = "tasks-view"
+const dailyView: string = "daily-view"
 
 const view: State = new State(nullView);
 
-view.setTransition(nullView, firstRun, toFirstRun.fromNull);
+view.setTransition(nullView, tasksView, toTasks.fromNull);
+view.setTransition(nullView, dailyView, toDaily.fromNull);
+view.setTransition(tasksView, dailyView, toTasks.fromDaily);
+view.setTransition(dailyView, tasksView, toDaily.fromTasks);
 
-export { view, nullView, firstRun, taskView };
+export { view, nullView, tasksView, dailyView };

@@ -1,12 +1,46 @@
 @use 'widgets/misc';
+@use 'colors';
 
 $font: "Fira Sans";
+$sidebar-size: 58px;
+
+*:focus {
+  outline-style: dashed;
+  outline-color: rgba(0, 0, 0, 0.3);
+  outline-offset: -4px;
+  outline-width: thin;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
 
 body {
-  font-family: $font;
-  margin: 0;
+  background-color: colors.$bg;
+  font-family: $font, "sans-serif";
+  color: colors.$text;
 }
 
 h1 {
   font-weight: normal;
+}
+
+#content-view {
+  margin-left: $sidebar-size;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+#sidebar {
+  height: 100%;
+  width: $sidebar-size;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(colors.$sidebar-light 0%, colors.$sidebar-dark 75%);
+  overflow-x: hidden;
 }

@@ -1,2 +1,19 @@
+// Colours
 
-$light-grey: #BDC0C1;
+$bg:            #e3e4e5;
+$headline:      #19111d;
+$text:          #2b232f;
+$urgent:        #ff3333;
+$success:       #21eb17;
+$sunrise-red:   #ff0541;
+$sunrise-orange:#ff5005;
+$robin-red:     #fa2e2e;
+$sidebar-light: #171d29;
+$sidebar-dark:  #0b111d;
+$bg-raised:     #ffffff;
+$bg-inset:      darken($bg, 12%);
+$checkbox:      #cccccc;
+$outline-color: rgba(0, 0, 0, 0.2);
+$outline-hover: rgba(0, 0, 0, 0.4);
+$blackout:      rgba(0, 0, 0, 0.5);
+$dialog-bg:     $bg;

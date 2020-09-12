@@ -7,7 +7,7 @@
     "watch": "tsc -w",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "start": "npm run build && electron ./dist/main.js",
-    "scss": "sass --watch stylesheets/src/common.scss -o stylesheets/"
+    "scss": "sass --watch stylesheets/src/common.scss:stylesheets/common.css"
   },
   "repository": "https://github.com/electron/electron-quick-start-typescript",
   "keywords": [

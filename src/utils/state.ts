@@ -18,12 +18,13 @@ class State {
     this.transitions[from][to] = transition;
   }
   
-  set(next: string): Either<string, void> {
-    if (!(next in this.transitions[this.curr])) {
-      return {kind: "error", err: `Cannot transition from ${this.curr} to ${next}`};
+  set(next: string): void {
+    if (next in this.transitions[this.curr]) {
+      this.transitions[this.curr][next]();
+      this.curr = next;
+    } else {
+      console.log(`No transition from ${this.curr} to ${next}`);
     }
-
-    this.transitions[this.curr][next]();
   }
 };
 

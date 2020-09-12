@@ -14,34 +14,30 @@
     />
     <link rel="stylesheet" href="stylesheets/common.css" />
   </head>
-  <body>
-    <!-- First run view -->
-    <div id="first-run-view">
-      <div class="center">
-        <h2 id="name-prompt">
-          Let's get started.<br>What's your name?
-        </h2>
-        
-        <div class="entry">
-        </div>
-      </div>
-    </div>
-    
+  <body>    
     <!-- Main App View -->
     <div id="main-view">
       <!-- Sidebar, used for navigation -->
       <div id="sidebar">
+        <div id="new-task" class="sidebar-button">
+          <div class="icon"><img class="icon-img" src="./icons/new.png"></div>
+        </div>
 
+        <div id="daily-btn" class="sidebar-button" data-selected="false">
+          <div class="icon"><img class="icon-img" src="./icons/calendar.png"></div>
+        </div>
+
+        <div id="tasks-btn" class="sidebar-button" data-selected="false">
+          <div class="icon"><img class="icon-img" src="./icons/tasks.png"></div>
+        </div>
       </div>
 
       <!-- Content -->
       <div id="content-view">
 
-        <!-- Daily
         <div id="daily-view">
-
+          <h2>Daily</h2>
         </div>
-        -->
 
         <!-- Tasks -->
         <div id="tasks-view">
@@ -58,6 +54,6 @@
       </div>
     </div>
     <!-- You can also require other files to run in this process -->
-    <script type="module" src="./dist/renderer.js"></script>
+    <script src="./dist/renderer.js"></script>
   </body>
 </html>

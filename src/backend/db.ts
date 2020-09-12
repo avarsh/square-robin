@@ -2,32 +2,35 @@
 
 import * as path from "path";
 import fs = require('fs');
+import { app } from "electron";
 
-import { Task } from "../utils/task";
+import { Task } from "../types/task";
 import { Either } from "../utils/functional/either";
 import { guard } from "../utils/functional/guard";
 
-type User = {
-  name: string
-}
+const configDir = app.getPath("userData");
+const dbFile = path.join(configDir, "database.json");
 
 interface Database {
-  user: User;
   tasks: Array<Task>;
 }
 
+/**
+ * Check whether the database exists.
+ */
 export function dbExists(): boolean {
-  return fs.existsSync(global._dbFile);
+  return fs.existsSync(dbFile);
 }
 
-export function setupDB(name: string): void {
+/**
+ * Setup an initial database.
+ */
+export function setupDB(): Database {
   const initialData: Database = {
-    user: {
-      name: name
-    },
     tasks: []
   };
-  fs.writeFile(global._dbFile, JSON.stringify(initialData), () => { console.log("Created initial database"); });
+  fs.writeFile(dbFile, JSON.stringify(initialData), () => { console.log("Created initial database"); });
+  return initialData;
 }
 
 /**
@@ -35,9 +38,9 @@ export function setupDB(name: string): void {
  * @param db The database to write out
  */
 export function writeDatabase(db: Database): Either<string, void> {
-  const errStr: string = `Cannot find database at location ${global._dbFile}`;
+  const errStr: string = `Cannot find database at location ${dbFile}`;
   return guard<void>(dbExists(), errStr).then(() =>
-    fs.writeFileSync(global._dbFile, JSON.stringify(db))
+    fs.writeFileSync(dbFile, JSON.stringify(db))
   );
 }
 
@@ -45,8 +48,8 @@ export function writeDatabase(db: Database): Either<string, void> {
  * Construct a database object from file.
  */
 export function readDatabase(): Either<string, Database> {
-  const errStr: string = `Cannot find database at location ${global._dbFile}`;
+  const errStr: string = `Cannot find database at location ${dbFile}`;
   return guard<Database>(dbExists(), errStr).then(() => 
-    JSON.parse(fs.readFileSync(global._dbFile, "utf-8")) 
+    JSON.parse(fs.readFileSync(dbFile, "utf-8")) 
   );
 }

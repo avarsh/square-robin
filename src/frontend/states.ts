@@ -1,5 +1,5 @@
-import { State, Transition } from "../lib/state";
-import * as toFirstRun from "../components/first-run/transitions";
+import { State } from "../utils/state";
+import * as toFirstRun from "./first-run/transitions";
 
 const nullView: string = "null-view"
 const firstRun: string = "first-run"

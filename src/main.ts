@@ -1,5 +1,6 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import * as path from "path";
+import { handlers } from "./backend/handlers";
 
 function createWindow() {
   // Create the browser window.
@@ -13,6 +14,14 @@ function createWindow() {
   });
 
   mainWindow.loadFile(path.join(__dirname, "../index.html"));
+  
+  const configDir = app.getPath("userData");
+  global._dbFile = path.join(configDir, "database.json");
+  
+  // Register handlers
+  for (const [request, callback] of Object.entries(handlers)) {
+    ipcMain.on(request, callback);
+  }
 }
 
 // This method will be called when Electron has finished

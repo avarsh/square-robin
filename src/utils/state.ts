@@ -1,4 +1,4 @@
-import { Either } from "../lib/functional/either";
+import { Either } from "./functional/either";
 
 type Transition = () => void;
 

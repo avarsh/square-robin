@@ -6,7 +6,6 @@
 // needed in the renderer process.
 
 const {ipcRenderer} = require('electron');
-const {setup} = require(global._appRoot + '/components/app.js');
+const {setup} = require(global._appRoot + '/frontend/app.js');
 
-console.log("Hello");
 setup();

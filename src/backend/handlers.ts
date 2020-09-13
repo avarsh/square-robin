@@ -1,14 +1,20 @@
-import { IpcMainInvokeEvent } from "electron/main";
-import { dbExists } from "./db";
+import { IpcMainInvokeEvent, IpcMainEvent } from "electron/main";
+import { readDatabase } from "./db";
+import * as requests from "../types/requests";
+import { fromVal } from "../utils/functional/either";
+import { alertOnFail } from "../utils/error";
+import { Database } from "../backend/db";
 
 // Create handlers for each request from the renderer
 
-function handleDbExists(event: IpcMainInvokeEvent, args: any[]): void {
-  event.returnValue = dbExists();
+type Callback = (event: IpcMainEvent, args: any[]) => void;
+
+function getTasks(event: IpcMainEvent, args: any[]): void {
+  const db: Database = alertOnFail(readDatabase());
+  if (!!db) { event.returnValue = db.tasks; }
 }
 
-const handlers = {
-  "dbexists": handleDbExists
-};
+const handlers: Record<string, Callback> = {};
+handlers[requests.GET_TASKS] = getTasks;
 
 export {handlers};

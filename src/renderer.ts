@@ -7,5 +7,4 @@
 
 const {ipcRenderer} = require('electron');
 const {setup} = require(global._appRoot + '/frontend/app.js');
-
 setup();

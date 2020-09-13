@@ -1,16 +1,18 @@
-import { State } from "../utils/state";
+import { State, SingleState, NULL_STATE } from "../utils/state";
 import * as toTasks from "./tasks/transitions"
-import * as toDaily from "./daily/transitions";
+import * as tasks from "./tasks/states";
+import * as $ from "jquery";
 
-const nullView:  string = "null-view"
-const tasksView: string = "tasks-view"
-const dailyView: string = "daily-view"
+const tasksView: State = new State("tasks-view", tasks.states);
+tasksView.setTransition(NULL_STATE, tasks.emptyState, (empty: State) => { $("#tasks-view .empty-list").show(); });
+tasksView.setTransition(NULL_STATE, tasks.listState,  (list: State) => {});
+tasksView.setTransition(tasks.emptyState, tasks.listState, (list: State) => {});
+tasksView.setTransition(tasks.listState, tasks.emptyState, (empty: State) => {});
 
-const view: State = new State(nullView);
+const viewStates: Record<string, State> = {};
+viewStates[tasksView.name] = tasksView;
+const view: State = new State("view", viewStates);
 
-view.setTransition(nullView, tasksView, toTasks.fromNull);
-view.setTransition(nullView, dailyView, toDaily.fromNull);
-view.setTransition(tasksView, dailyView, toTasks.fromDaily);
-view.setTransition(dailyView, tasksView, toDaily.fromTasks);
+view.setTransition(NULL_STATE, tasksView, toTasks.fromNull);
 
-export { view, nullView, tasksView, dailyView };
+export { viewStates, view, tasksView };

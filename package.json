@@ -1,7 +1,8 @@
 {
-  "name": "electron-quick-start-typescript",
+  "name": "square-robin",
+  "productName": "SquareRobin",
   "version": "1.0.0",
-  "description": "A minimal Electron application written with Typescript",
+  "description": "A smart todo list",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
@@ -9,7 +10,7 @@
     "start": "npm run build && electron ./dist/main.js",
     "scss": "sass --watch stylesheets/src/common.scss:stylesheets/common.css"
   },
-  "repository": "https://github.com/electron/electron-quick-start-typescript",
+  "repository": "https://github.com/avarsh/square-robin",
   "keywords": [
     "Electron",
     "quick",
@@ -18,8 +19,8 @@
     "demo",
     "typescript"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "Aporva Varshney",
+  "license": "MIT",
   "devDependencies": {
     "@types/jquery": "^3.5.1",
     "@types/jsdom": "^16.2.4",

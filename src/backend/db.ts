@@ -49,7 +49,6 @@ export function writeDatabase(db: Database): Either<string, void> {
  */
 export function readDatabase(): Either<string, Database> {
   const errStr: string = `Cannot find database at location ${dbFile}`;
-  console.log(dbFile);
   return guard<Database>(dbExists(), errStr).then(() => 
     JSON.parse(fs.readFileSync(dbFile, "utf-8")) 
   );

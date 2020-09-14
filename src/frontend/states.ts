@@ -5,7 +5,7 @@ import * as $ from "jquery";
 
 const tasksView: State = new State("tasks-view", tasks.states);
 tasksView.setTransition(NULL_STATE, tasks.emptyState, (empty: State) => { $("#tasks-view .empty-list").show(); });
-tasksView.setTransition(NULL_STATE, tasks.listState,  (list: State) => {});
+tasksView.setTransition(NULL_STATE, tasks.listState,  (list: State) => { $("#tasks-view .task-list").show(); });
 tasksView.setTransition(tasks.emptyState, tasks.listState, (list: State) => {});
 tasksView.setTransition(tasks.listState, tasks.emptyState, (empty: State) => {});
 

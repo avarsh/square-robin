@@ -16,6 +16,7 @@ $sidebar-size: 58px;
 }
 
 .sidebar-button {
+  transition: 150ms ease-in-out;
   width: $sidebar-size;
   height: $sidebar-size;
   display: table-cell;
@@ -26,5 +27,44 @@ $sidebar-size: 58px;
     top: 50%;
     transform: translateY(-50%);
     text-align: center;
+  }
+  
+  &:hover {
+    background-color: lighten(colors.$sidebar-light, 5%);
+  }
+  
+  &:active,
+  &.selected {
+    background-color: darken(colors.$sidebar-dark, 2%);
+  }
+}
+
+#add-task {
+  background-image: linear-gradient(colors.$sunrise-red, colors.$sunrise-orange);
+  
+  &:after {
+    background-color: rgba(255, 255, 255, 0.25);
+    content: "";
+    width: 100%;
+    height: 58px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+  
+  &:hover {
+    background-color: transparent;
+    
+    &:after {
+      opacity: 1;
+    }
+  }
+  
+  &:active {
+    &:after {
+      opacity: 0;
+    }
   }
 }

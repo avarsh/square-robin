@@ -24,7 +24,7 @@ class State {
   }
   
   set(next: State): void {
-    if (this.curr != null && next.name in this.transitions[this.curr] && next.name != this.curr) {
+    if (this.curr != null && this.curr in this.transitions && next.name in this.transitions[this.curr] && next.name != this.curr) {
       this.transitions[this.curr][next.name](this.states[next.name]);
       this.curr = next.name;
     } else if (this.curr == null) {

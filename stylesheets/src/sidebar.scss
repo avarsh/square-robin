@@ -1,0 +1,30 @@
+@use 'colors';
+
+$sidebar-size: 58px;
+
+#sidebar {
+  height: 100%;
+  width: $sidebar-size;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(colors.$sidebar-light 0%, colors.$sidebar-dark 75%);
+  overflow-x: hidden;
+  display: grid;
+  grid-template-rows: $sidebar-size $sidebar-size $sidebar-size;
+}
+
+.sidebar-button {
+  width: $sidebar-size;
+  height: $sidebar-size;
+  display: table-cell;
+  white-space: nowrap;
+  
+  .icon {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+  }
+}

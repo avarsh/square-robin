@@ -1,4 +1,5 @@
 
+// TODO: In a transition, allow any number of user args
 class State {
   private transitions: {[from: string]: {[to: string]: Transition} };
   states: Record<string, State>;
@@ -23,7 +24,7 @@ class State {
   }
   
   set(next: State): void {
-    if (this.curr != null && next.name in this.transitions[this.curr]) {
+    if (this.curr != null && next.name in this.transitions[this.curr] && next.name != this.curr) {
       this.transitions[this.curr][next.name](this.states[next.name]);
       this.curr = next.name;
     } else if (this.curr == null) {

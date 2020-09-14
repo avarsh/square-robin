@@ -3,6 +3,32 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 
+#sidebar {
+  height: 100%;
+  width: 58px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(#171d29 0%, #0b111d 75%);
+  overflow-x: hidden;
+  display: grid;
+  grid-template-rows: 58px 58px 58px;
+}
+
+.sidebar-button {
+  width: 58px;
+  height: 58px;
+  display: table-cell;
+  white-space: nowrap;
+}
+.sidebar-button .icon {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+}
+
 *:focus {
   outline-style: dashed;
   outline-color: rgba(0, 0, 0, 0.3);
@@ -21,6 +47,9 @@ body {
   background-color: #e3e4e5;
   font-family: "Fira Sans", "sans-serif";
   color: #2b232f;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 h1 {
@@ -31,17 +60,6 @@ h1 {
   margin-left: 58px;
   padding-left: 5%;
   padding-right: 5%;
-}
-
-#sidebar {
-  height: 100%;
-  width: 58px;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-image: linear-gradient(#171d29 0%, #0b111d 75%);
-  overflow-x: hidden;
 }
 
 /*# sourceMappingURL=common.css.map */

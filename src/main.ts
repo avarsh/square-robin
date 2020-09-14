@@ -1,21 +1,15 @@
 import { app, BrowserWindow, ipcMain } from "electron";
-import * as path from "path";
-import { handlers } from "./backend/handlers";
+import { createWindow } from "./backend/windows";
 import * as db from "./backend/db";
+import { handlers } from "./backend/handlers";
 
-function createWindow() {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-      nodeIntegration: true
-    },
-    width: 800,
-  });
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.disableHardwareAcceleration();
+app.on("ready", () => {
+  createWindow();
 
-  mainWindow.loadFile(path.join(__dirname, "../index.html"));
-  
   // Setup database
   if(!db.dbExists()) {
     db.setupDB();
@@ -25,13 +19,6 @@ function createWindow() {
   for (const [request, callback] of Object.entries(handlers)) {
     ipcMain.on(request, callback);
   }
-}
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on("ready", () => {
-  createWindow();
 
   app.on("activate", function () {
     // On macOS it's common to re-create a window in the app when the

@@ -18,6 +18,7 @@ function addTask(event: IpcMainEvent, args: any): void {
   const details: Task = args as Task;
   const db: Database = alertOnFail(readDatabase());
   db.tasks.push(details);
+  // TODO: Refresh task list with the new db
   writeDatabase(db);
   event.returnValue = true;
 }

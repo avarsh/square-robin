@@ -2,7 +2,7 @@ import * as $ from "jquery";
 import { ipcRenderer, remote } from 'electron';
 import * as requests from "../types/requests";
 import { Task } from "../types/task";
-import { useLinked } from "../frontend/ui";
+import { useLinked } from "./ui/ui";
 
 export function setupDialog() {
   useLinked();
@@ -23,7 +23,7 @@ export function setupDialog() {
     if ($("#deadline-switch-check").is(":checked")) {
       details.dueDate = new Date($("#due-date").val() as string);
     }
-    ipcRenderer.sendSync(requests.ADD_TASK, details);
+    ipcRenderer.send(requests.ADD_TASK, details);
     remote.getCurrentWindow().close();
     return true;
   });

@@ -2,10 +2,9 @@
 <html>
   <head>
     <title>Add Task</title>
-    <script type="module" src="./dist/dialogrenderer.js"></script>
   </head>
   <body>
-      <form>
+      <form id="add-task-form">
         <table id="task-details-table">
           <!-- Task description -->
           <tr>
@@ -22,9 +21,9 @@
             <td>Task Size</td>
             <td>
               <div class="linked-group" id="task-size-group">
-                <span class="linked button first" id="quick-size" data-selected="true">Quick</span><!--
-             --><span class="linked button middle" id="long-size" data-selected="false">Long</span><!--
-             --><span class="linked button end" id="marathon-size" data-selected="false">Marathon</span>
+                <span class="linked button first selected" id="quick-size">Quick</span><!--
+             --><span class="linked button middle" id="long-size">Long</span><!--
+             --><span class="linked button end" id="marathon-size">Marathon</span>
               </div>
             </td>
           </tr>
@@ -52,7 +51,9 @@
         </table>
         
         <!-- Accept -->
-        <button class="constructive" id="new-task-accept">Add Task</button>
+        <input type="submit" value="Add" id="add-task">
       </form>
+      
+      <script src="./dist/dialogrenderer.js"></script>
   </body>
 </html>

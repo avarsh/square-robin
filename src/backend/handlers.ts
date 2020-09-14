@@ -1,22 +1,36 @@
-import { IpcMainInvokeEvent, IpcMainEvent } from "electron/main";
-import { readDatabase } from "./db";
+import { IpcMainEvent } from "electron/main";
 import * as requests from "../types/requests";
-import { fromVal } from "../utils/functional/either";
 import { alertOnFail } from "../utils/error";
-import { Database } from "../backend/db";
+import { Database, writeDatabase, readDatabase } from "./db";
 import { createAddDialog } from "./windows";
+import { Task } from "../types/task";
 
 // Create handlers for each request from the renderer
 
-type Callback = (event: IpcMainEvent, args: any[]) => void;
+type Callback = (event: IpcMainEvent, args: any) => void;
 
-function getTasks(event: IpcMainEvent, args: any[]): void {
+function getTasks(event: IpcMainEvent, args: any): void {
   const db: Database = alertOnFail(readDatabase());
   if (!!db) { event.returnValue = db.tasks; }
+}
+
+function addTask(event: IpcMainEvent, args: any): void {
+  const details: Task = args as Task;
+  const db: Database = alertOnFail(readDatabase());
+  db.tasks.push(details);
+  writeDatabase(db);
+  event.returnValue = true;
+}
+
+function nextId(event: IpcMainEvent, args: any[]): void {
+  const db: Database = alertOnFail(readDatabase());  
+  event.returnValue = db.tasks.length;
 }
 
 const handlers: Record<string, Callback> = {};
 handlers[requests.GET_TASKS] = getTasks;
 handlers[requests.CREATE_ADD_DIALOG] = createAddDialog;
+handlers[requests.ADD_TASK] = addTask;
+handlers[requests.NEXT_ID] = nextId;
 
 export {handlers};

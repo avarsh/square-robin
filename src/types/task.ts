@@ -1,9 +1,10 @@
 // Task type
 
 type Task = {
-  name: string,
-  dueDate: Date,
-  difficulty: number,
+  id: number,
+  description: string,
+  dueDate?: Date,
+  size: number,
   completed: boolean,
   subtasks: Subtask[]
 };

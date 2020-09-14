@@ -2,8 +2,57 @@
 <html>
   <head>
     <title>Add Task</title>
+    <script type="module" src="./dist/dialogrenderer.js"></script>
   </head>
   <body>
-      
+      <form>
+        <table id="task-details-table">
+          <!-- Task description -->
+          <tr>
+            <td>Description</td>
+            <td>
+              <div class="input-cell">
+                <input type="text" id="desc" required>
+              </div>
+            </td>
+          </tr>
+          
+          <!-- Task size -->
+          <tr>
+            <td>Task Size</td>
+            <td>
+              <div class="linked-group" id="task-size-group">
+                <span class="linked button first" id="quick-size" data-selected="true">Quick</span><!--
+             --><span class="linked button middle" id="long-size" data-selected="false">Long</span><!--
+             --><span class="linked button end" id="marathon-size" data-selected="false">Marathon</span>
+              </div>
+            </td>
+          </tr>
+          
+          <!-- Deadline? -->
+          <tr>
+            <td>Deadline</td>
+            <td>
+              <label class="switch" id="deadline-switch">
+                <input id="deadline-switch-check" type="checkbox" checked="true">
+                <span class="switch-slider"></span>
+              </label>
+            </td>
+          </tr>
+          
+          <!--When the project is due-->
+          <tr>
+            <td>Due Date</td>
+            <td>
+                <div>
+                    <input type="date" id="due-date" required>
+                </div>
+            </td>
+          </tr>
+        </table>
+        
+        <!-- Accept -->
+        <button class="constructive" id="new-task-accept">Add Task</button>
+      </form>
   </body>
 </html>

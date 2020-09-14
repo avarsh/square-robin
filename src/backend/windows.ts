@@ -27,12 +27,14 @@ export function createAddDialog(event: IpcMainEvent, args: any[]) {
     modal: true,
     show: false,
     width: 300,
-    height: 200
+    height: 200,
+    webPreferences: {
+      preload: path.join(__dirname, "../preload.js"),
+      nodeIntegration: true
+    }
   });
   
   dialog.setAutoHideMenuBar(true);
   dialog.loadFile(path.join(__dirname, "../../dialog.html"));
-  dialog.once('ready-to-show', () => {
-    dialog.show();
-  });
+  dialog.show();
 }

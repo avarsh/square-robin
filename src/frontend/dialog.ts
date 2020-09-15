@@ -23,9 +23,9 @@ export function setupDialog() {
     if ($("#deadline-switch-check").is(":checked")) {
       details.dueDate = new Date($("#due-date").val() as string);
     }
-    ipcRenderer.send(requests.ADD_TASK, details);
+    ipcRenderer.sendSync(requests.ADD_TASK, details);
     remote.getCurrentWindow().close();
-    return true;
+    return false;
   });
 }
 

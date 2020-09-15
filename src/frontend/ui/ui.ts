@@ -8,3 +8,10 @@ export function useLinked() {
     $(this).addClass("selected");
   });
 }
+
+export function useTickbox(userFunc?: (elem: HTMLElement) => void) {
+  $(".tickbox").click(function() {
+    $(this).toggleClass("selected");
+    userFunc(this);
+  });
+}

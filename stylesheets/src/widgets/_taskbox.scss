@@ -1,13 +1,38 @@
 @use '../colors';
 
 $dot-size: 10px;
+$date-height: 24px;
+$tickbox-height: 16px;
 
 .taskbox {
   background-color: colors.$bg-raised;
   padding: 12px;
   display: grid;
-  grid-template-columns: 24px auto 54px 100px;
+  grid-template-columns: 24px auto 72px 100px;
   border-radius: 4px;
+  
+  .tickbox {
+    $border-size: 2px;
+    
+    width: $tickbox-height;
+    height: $tickbox-height;
+    border-radius: 35px;
+    border: solid $border-size colors.$bg-inset;
+    position: relative;
+    top: 50%;
+    margin-top: -(($tickbox-height / 2) + $border-size);
+    
+    &.selected {
+      background-image: url("../icons/tick.png");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+  
+  .task-desc {
+    line-height: $date-height;
+    padding-left: 6px;
+  }
   
   .task-size {
     display: grid;
@@ -18,7 +43,7 @@ $dot-size: 10px;
       height: $dot-size;
       width: $dot-size;
       border-radius: 100%;
-      background-color: red;
+      background-color: lighten(colors.$bg-inset, 10%);
       
       margin-left: auto;
       margin-right: auto;
@@ -27,5 +52,31 @@ $dot-size: 10px;
       top: 50%;
       margin-top: -($dot-size/2);
     }
+    
+    &[data-size="0"] .dot:first-child {
+      background-color: colors.$robin-blue;
+    }
+    
+    &[data-size="1"] {
+      .dot:first-child,
+      .dot:nth-child(2) {
+        background-color: colors.$robin-blue;
+      }
+    }
+    
+    &[data-size="2"] {
+      .dot:first-child,
+      .dot:nth-child(2),
+      .dot:nth-child(3) {
+        background-color: colors.$robin-blue;
+      }
+    }
+  }
+  
+  .task-due {
+    background-color: lighten(colors.$bg-inset, 10%);
+    width: 100%;
+    height: $date-height;
+    border-radius: $date-height;
   }
 }

@@ -1,15 +1,20 @@
 import * as states from "./states";
 import * as $ from "jquery";
 import { view } from "./states";
-import { ipcRenderer } from "electron";
+import { ipcRenderer, webContents, remote } from "electron";
 import * as requests from "../types/requests";
 import { Task } from "../types/task";
 import { buildTaskBox } from "./ui/taskbox";
+import { useTickbox } from "./ui/ui";
+
+ipcRenderer.on(requests.BUILD_TASKLIST, (event, tasks: Task[]) => {
+  fillTasksFromList(tasks);
+});
 
 export function setup() {
   // State is null by default, so clear contents
   $("#content-view").children().hide();
-
+  
   // Transition into tasks view
   view.set(states.tasksView);
   
@@ -35,11 +40,20 @@ export function setup() {
 
 export function fillTasks() {
   const tasks: Task[] = ipcRenderer.sendSync(requests.GET_TASKS);
+  fillTasksFromList(tasks);
+}
+
+function fillTasksFromList(tasklist: Task[]) {
   let inner: string = "";
-  for (let task of tasks) {
+  for (let task of tasklist) {
     const html: string = buildTaskBox(task);
     inner += html;
   }
 
   $("#tasks-view .task-list").html(inner);
+  useTickbox((tickbox: HTMLElement) => {
+    const taskbox = $(tickbox).parent();
+    const id: number = parseInt(taskbox.attr("data-id"));
+    ipcRenderer.sendSync(requests.SET_TASK_COMPLETE, id, $(tickbox).hasClass("selected"));
+  });
 }

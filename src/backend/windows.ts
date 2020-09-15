@@ -39,3 +39,5 @@ export function createAddDialog(event: IpcMainEvent, args: any[]) {
   dialog.loadFile(path.join(__dirname, "../../dialog.html"));
   dialog.show();
 }
+
+export { mainWindow };

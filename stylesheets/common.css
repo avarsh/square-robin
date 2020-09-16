@@ -21,7 +21,7 @@
   display: grid;
   column-gap: 12px;
   padding: 12px;
-  grid-template-columns: 18px auto 54px 100px;
+  grid-template-columns: 20px auto 54px 100px;
 }
 .taskbox:hover {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -42,7 +42,6 @@
 }
 .taskbox .task-desc {
   line-height: 24px;
-  padding-left: 6px;
 }
 .taskbox .task-size {
   display: grid;
@@ -88,20 +87,20 @@
 .taskbox .task-schedule:hover {
   cursor: pointer;
 }
-.taskbox .task-schedule .arrow-container {
+.taskbox .arrow-container {
   margin: auto;
   position: relative;
   top: 50%;
   margin-top: -12px;
 }
-.taskbox .task-schedule .arrow-container .right-arrow {
+.taskbox .arrow-container .right-arrow {
   border: solid #b2c0c9;
   border-width: 0 2px 2px 0;
   display: inline-block;
   padding: 3px;
   transform: rotate(-45deg);
 }
-.taskbox .task-schedule .arrow-container .right-arrow:not(:first-child) {
+.taskbox .arrow-container .right-arrow:not(:first-child) {
   margin-left: -4px;
 }
 .taskbox .subtask-box {
@@ -109,8 +108,61 @@
   grid-column-end: 3;
   grid-row-start: 2;
   grid-row-end: 3;
-  height: 120px;
-  display: none;
+}
+.taskbox .subtask-box .subtask-row {
+  grid-template-columns: auto 32px;
+  display: grid;
+}
+.taskbox .subtask-box .subtask-row .subtask-item {
+  display: grid;
+  grid-template-columns: 12px 20px auto;
+  column-gap: 12px;
+  padding-bottom: 6px;
+}
+.taskbox .subtask-box .subtask-row .subtask-item .tickbox {
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+.taskbox .subtask-box .subtask-row .subtask-item .task-desc {
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+.taskbox .subtask-box .add-subtask-row {
+  display: grid;
+  grid-template-columns: 12px 20px auto;
+  column-gap: 12px;
+  margin-bottom: 12px;
+}
+.taskbox .subtask-box .add-subtask-row .add-button {
+  transition: 150ms ease-in-out;
+  background-image: url("../icons/new-small.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  position: relative;
+  top: 50%;
+  border-radius: 100%;
+  margin-top: -12px;
+}
+.taskbox .subtask-box .add-subtask-row .add-button:hover {
+  cursor: pointer;
+  background-color: rgba(178, 192, 201, 0.5);
+}
+.taskbox .subtask-box .add-subtask-row .subtask-name input[type=text] {
+  width: 90%;
+  border: none;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  transition: 150ms ease-in-out;
+}
+.taskbox .subtask-box .add-subtask-row .subtask-name input[type=text]:focus {
+  outline: none;
+  box-shadow: 0 1px 0 #b2c0c9;
 }
 
 #sidebar {
@@ -201,6 +253,10 @@ h1 {
   margin-left: 58px;
   padding-left: 5%;
   padding-right: 5%;
+}
+
+h1 {
+  font-size: 1.5em;
 }
 
 /*# sourceMappingURL=common.css.map */

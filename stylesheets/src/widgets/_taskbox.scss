@@ -22,7 +22,7 @@ $tickbox-height: 16px;
     display: grid;
     column-gap: 12px;
     padding: 12px;
-    grid-template-columns: ($tickbox-height + 2) auto (18px * 3) 100px;
+    grid-template-columns: ($tickbox-height + 4) auto (18px * 3) 100px;
   }
   
   &:hover {
@@ -49,7 +49,6 @@ $tickbox-height: 16px;
   
   .task-desc {
     line-height: $date-height;
-    padding-left: 6px;
   }
   
   .task-size {
@@ -108,23 +107,23 @@ $tickbox-height: 16px;
     &:hover {
       cursor: pointer;
     }
+  }
+  
+  .arrow-container {
+    margin: auto;
+    position: relative;
+    top: 50%;
+    margin-top: -($date-height / 2);
 
-    .arrow-container {
-      margin: auto;
-      position: relative;
-      top: 50%;
-      margin-top: -($date-height / 2);
-
-      .right-arrow {
-        border: solid colors.$bg-inset;
-        border-width: 0 2px 2px 0;
-        display: inline-block;
-        padding: 3px;
-        transform: rotate(-45deg);
-        
-        &:not(:first-child) {
-          margin-left: -4px;
-        }
+    .right-arrow {
+      border: solid colors.$bg-inset;
+      border-width: 0 2px 2px 0;
+      display: inline-block;
+      padding: 3px;
+      transform: rotate(-45deg);
+      
+      &:not(:first-child) {
+        margin-left: -4px;
       }
     }
   }
@@ -134,7 +133,69 @@ $tickbox-height: 16px;
     grid-column-end: 3;
     grid-row-start: 2;
     grid-row-end: 3;
-    height: 120px;
-    display: none;
+    
+    .subtask-row {
+      grid-template-columns: auto 32px;
+      display: grid;
+      
+      .subtask-item {
+        display: grid;
+        grid-template-columns: 12px ($tickbox-height  + 4) auto;
+        column-gap: 12px;
+        padding-bottom: 6px;
+        
+        .tickbox {
+          grid-column-start: 2;
+          grid-column-end: 3;
+        }
+        
+        .task-desc {
+          grid-column-start: 3;
+          grid-column-end: 4;
+        }
+      }
+    }
+    
+    .add-subtask-row {
+      display: grid;
+      grid-template-columns: 12px ($tickbox-height + 4) auto;
+      column-gap: 12px;
+      margin-bottom: 12px;
+      
+      .add-button {
+        transition: 150ms ease-in-out;
+        background-image: url("../icons/new-small.png");
+        background-position: center center;
+        background-repeat: no-repeat;
+        width: $tickbox-height + 4;
+        height: $tickbox-height + 4;
+        margin-left: auto;
+        margin-right: auto;
+        grid-column-start: 2;
+        grid-column-end: 3;
+        position: relative;
+        top: 50%;
+        border-radius: 100%;
+        margin-top: -12px;
+        
+        &:hover {
+          cursor: pointer;
+          background-color: transparentize(colors.$bg-inset, 0.5);
+        }
+      }
+      
+      .subtask-name input[type="text"] {
+        width: 90%;
+        border: none;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        transition: 150ms ease-in-out;
+        
+        &:focus {
+          outline: none;
+          box-shadow: 0 1px 0 colors.$bg-inset;
+        }
+      }
+    }
   }
 }

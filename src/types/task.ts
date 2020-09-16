@@ -11,6 +11,7 @@ type Task = {
 };
 
 type Subtask = {
+  id: number,
   description: string,
   completed: boolean,
   scheduled: Date | null

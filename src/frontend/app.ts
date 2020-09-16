@@ -5,14 +5,20 @@ import { listState, emptyState } from "./tasks/states";
 import { ipcRenderer, webContents, remote } from "electron";
 import * as requests from "../types/requests";
 import { Task } from "../types/task";
-import { buildTaskBox, buildSubtask, useTaskbox } from "./ui/taskbox";
-import { useTickbox } from "./ui/ui";
+import { buildTaskBox, useTaskbox } from "./ui/taskbox";
 
 ipcRenderer.on(requests.BUILD_TASKLIST, (event, tasks: Task[]) => {
   if (tasks.length > 0) {
     states.tasksView.set(listState);
   }
   fillTasksFromList(tasks);
+});
+
+ipcRenderer.on(requests.BUILD_SUBTASKS, (event, task: Task) => {
+  const taskbox = $('.task-list').find("[data-id='" + task.id + "']");
+  const html: string = buildTaskBox(task);
+  taskbox.replaceWith(html);
+  useTaskbox(false);
 });
 
 export function setup() {
@@ -50,19 +56,12 @@ export function fillTasks() {
 function fillTasksFromList(tasklist: Task[]) {
   let inner: string = "";
   for (let task of tasklist) {
-    let subtaskHTML: string = "";
-    for (let subtask of task.subtasks) {
-      subtaskHTML += buildSubtask(subtask);
+    if (!task.completed) {
+      const html: string = buildTaskBox(task);
+      inner += html;
     }
-    const html: string = buildTaskBox(task, subtaskHTML);
-    inner += html;
   }
 
   $("#tasks-view .task-list").html(inner);  
-  useTickbox((tickbox: HTMLElement) => {
-    const taskbox = $(tickbox).parent();
-    const id: number = parseInt(taskbox.attr("data-id"));
-    ipcRenderer.sendSync(requests.SET_TASK_COMPLETE, id, $(tickbox).hasClass("selected"));
-  });
-  useTaskbox();
+  useTaskbox(true);
 }

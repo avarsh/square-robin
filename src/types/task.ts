@@ -6,12 +6,14 @@ type Task = {
   dueDate?: Date,
   size: number,
   completed: boolean,
-  subtasks: Subtask[]
+  subtasks: Subtask[],
+  scheduled: Date | null
 };
 
 type Subtask = {
-  name: string,
-  completed: boolean
+  description: string,
+  completed: boolean,
+  scheduled: Date | null
 };
 
 export {Task, Subtask};

@@ -17,7 +17,8 @@ export function setupDialog() {
       description: description,
       size: size,
       completed: false,
-      subtasks: []
+      subtasks: [],
+      scheduled: null
     };
     
     if ($("#deadline-switch-check").is(":checked")) {

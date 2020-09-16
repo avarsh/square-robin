@@ -43,6 +43,12 @@ function setTaskComplete(event: IpcMainEvent, id: number, setting: boolean): voi
   event.returnValue = true;
 }
 
+function scheduleTask(event: IpcMainEvent, setting: number): void {
+  // setting = 0: no scheduling
+  // setting = 1: today
+  // setting = 2: tomorrow
+}
+
 const handlers: Record<string, Callback> = {};
 handlers[requests.GET_TASKS] = getTasks;
 handlers[requests.CREATE_ADD_DIALOG] = createAddDialog;

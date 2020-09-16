@@ -5,11 +5,29 @@ $date-height: 24px;
 $tickbox-height: 16px;
 
 .taskbox {
+  transition: 150ms ease-in-out;
   background-color: colors.$bg-raised;
-  padding: 12px;
   display: grid;
-  grid-template-columns: 24px auto 72px 100px;
+  grid-template-columns: auto 32px;
   border-radius: 4px;
+  user-select: none;
+  margin-top: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  
+  .main-row {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    display: grid;
+    column-gap: 12px;
+    padding: 12px;
+    grid-template-columns: ($tickbox-height + 2) auto (18px * 3) 100px;
+  }
+  
+  &:hover {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  }
   
   .tickbox {
     $border-size: 2px;
@@ -78,5 +96,45 @@ $tickbox-height: 16px;
     width: 100%;
     height: $date-height;
     border-radius: $date-height;
+  }
+  
+  .task-schedule {
+    height: 100%;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    .arrow-container {
+      margin: auto;
+      position: relative;
+      top: 50%;
+      margin-top: -($date-height / 2);
+
+      .right-arrow {
+        border: solid colors.$bg-inset;
+        border-width: 0 2px 2px 0;
+        display: inline-block;
+        padding: 3px;
+        transform: rotate(-45deg);
+        
+        &:not(:first-child) {
+          margin-left: -4px;
+        }
+      }
+    }
+  }
+  
+  .subtask-box {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    height: 120px;
+    display: none;
   }
 }

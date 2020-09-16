@@ -15,6 +15,9 @@ app.on("ready", () => {
     db.setupDB();
   }
   
+  // Fix scheduled tasks in database
+  fixScheduled();
+  
   // Register handlers
   for (const [request, callback] of Object.entries(handlers)) {
     ipcMain.on(request, callback);
@@ -35,3 +38,8 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
+
+function fixScheduled() {
+  // TODO: remove scheduled tag if we are past
+  // the scheduled day
+}

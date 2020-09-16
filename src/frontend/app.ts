@@ -1,13 +1,17 @@
 import * as states from "./states";
 import * as $ from "jquery";
 import { view } from "./states";
+import { listState, emptyState } from "./tasks/states";
 import { ipcRenderer, webContents, remote } from "electron";
 import * as requests from "../types/requests";
 import { Task } from "../types/task";
-import { buildTaskBox } from "./ui/taskbox";
+import { buildTaskBox, buildSubtask, useTaskbox } from "./ui/taskbox";
 import { useTickbox } from "./ui/ui";
 
 ipcRenderer.on(requests.BUILD_TASKLIST, (event, tasks: Task[]) => {
+  if (tasks.length > 0) {
+    states.tasksView.set(listState);
+  }
   fillTasksFromList(tasks);
 });
 
@@ -46,14 +50,19 @@ export function fillTasks() {
 function fillTasksFromList(tasklist: Task[]) {
   let inner: string = "";
   for (let task of tasklist) {
-    const html: string = buildTaskBox(task);
+    let subtaskHTML: string = "";
+    for (let subtask of task.subtasks) {
+      subtaskHTML += buildSubtask(subtask);
+    }
+    const html: string = buildTaskBox(task, subtaskHTML);
     inner += html;
   }
 
-  $("#tasks-view .task-list").html(inner);
+  $("#tasks-view .task-list").html(inner);  
   useTickbox((tickbox: HTMLElement) => {
     const taskbox = $(tickbox).parent();
     const id: number = parseInt(taskbox.attr("data-id"));
     ipcRenderer.sendSync(requests.SET_TASK_COMPLETE, id, $(tickbox).hasClass("selected"));
   });
+  useTaskbox();
 }

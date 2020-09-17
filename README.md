@@ -2,6 +2,8 @@
 
 A smart to-do list which aids productivity by suggesting tasks to work on each day.
 
+**Note**: This application is currently being rewritten in Typescript - see the `rewrite` branch.
+
 ![Screenshot of the application](https://user-images.githubusercontent.com/25088746/65684388-6b63f400-e057-11e9-8919-349c42d969ac.png)
 
 ## Installation

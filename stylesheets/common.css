@@ -117,7 +117,7 @@
   display: grid;
   grid-template-columns: 12px 20px auto;
   column-gap: 12px;
-  padding-bottom: 6px;
+  padding-bottom: 12px;
 }
 .taskbox .subtask-box .subtask-row .subtask-item .tickbox {
   grid-column-start: 2;
@@ -257,6 +257,15 @@ h1 {
 
 h1 {
   font-size: 1.5em;
+  font-weight: 500;
+}
+
+.empty-list {
+  width: 100%;
+  text-align: center;
+  padding-top: 24px;
+  font-weight: 600;
+  color: rgba(43, 35, 47, 0.7);
 }
 
 /*# sourceMappingURL=common.css.map */

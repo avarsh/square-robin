@@ -103,7 +103,9 @@ export function useTaskbox(hideSub: boolean) {
     const id: number = parseInt(taskbox.attr("data-id"));
     if ($(tickbox).parents(".subtask-box").length == 0) {
       ipcRenderer.sendSync(requests.SET_TASK_COMPLETE, id, $(tickbox).hasClass("selected"));
-      taskbox.animate({ height: 0, opacity: 0 }, 500);
+      $(taskbox).animate({height: 0, opacity: 0}, 'slow', () => {
+        $(taskbox).remove();
+      });
     } else {
       // Subtask
       const subtaskBox = $(tickbox).parents(".subtask-row");

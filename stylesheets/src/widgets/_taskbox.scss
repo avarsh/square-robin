@@ -142,7 +142,7 @@ $tickbox-height: 16px;
         display: grid;
         grid-template-columns: 12px ($tickbox-height  + 4) auto;
         column-gap: 12px;
-        padding-bottom: 6px;
+        padding-bottom: 12px;
         
         .tickbox {
           grid-column-start: 2;

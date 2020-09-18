@@ -23,11 +23,11 @@
           <div class="icon"><img class="icon-img" src="./icons/new.png"></div>
         </div>
 
-        <div id="daily-btn" class="sidebar-button" data-selected="false">
+        <div id="daily-btn" class="sidebar-button tab">
           <div class="icon"><img class="icon-img" src="./icons/calendar.png"></div>
         </div>
 
-        <div id="tasks-btn" class="sidebar-button" data-selected="false">
+        <div id="tasks-btn" class="sidebar-button tab">
           <div class="icon"><img class="icon-img" src="./icons/tasks.png"></div>
         </div>
       </div>
@@ -36,7 +36,18 @@
       <div id="content-view">
 
         <div id="daily-view">
-          <h2>Daily</h2>
+          <div id="daily-heading">
+            <h1>Welcome. Here are your tasks for today.</h1>
+          </div>
+          
+          <div class="separator"></div>
+         
+          <div class="empty-list">
+            <span>No tasks currently scheduled.</span>
+          </div>
+          
+          <div class="scheduled-list">
+          </div>
         </div>
 
         <!-- Tasks -->
@@ -48,9 +59,11 @@
           <div class="separator"></div>
          
           <div class="empty-list">
-            <span>You have no tasks! Add one to get started.</span>
+            <span>You have no tasks - add one to get started.</span>
           </div>
           <div class="task-list">
+          </div>
+          <div class="completed-task-list">
           </div>
         </div>
 

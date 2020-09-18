@@ -5,9 +5,11 @@ class State {
   states: Record<string, State>;
   name: string;
   curr: string;
+  dirty: boolean;
   
   constructor(name: string, states: Record<string, State>) {
     this.name = name;
+    this.dirty = false;
     this.curr = NULL_STATE_NAME;
     if (states != null) {
       states[NULL_STATE_NAME] = NULL_STATE;
@@ -22,9 +24,9 @@ class State {
     }
     this.transitions[from.name][to.name] = transition;
   }
-  
+
   set(next: State): void {
-    if (this.curr != null && this.curr in this.transitions && next.name in this.transitions[this.curr] && next.name != this.curr) {
+    if (this.curr != null && this.curr in this.transitions && next.name in this.transitions[this.curr]) {
       this.transitions[this.curr][next.name](this.states[next.name]);
       this.curr = next.name;
     } else if (this.curr == null) {

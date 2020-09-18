@@ -12,6 +12,8 @@ export function useLinked() {
 export function useTickbox(userFunc?: (elem: HTMLElement) => void) {
   $(".tickbox").off('click').on('click', function() {
     $(this).toggleClass("selected");
-    userFunc(this);
+    if (userFunc) {
+      userFunc(this);
+    }
   });
 }

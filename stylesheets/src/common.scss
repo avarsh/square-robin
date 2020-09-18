@@ -41,6 +41,14 @@ h1 {
 h1 {
   font-size: 1.5em;
   font-weight: 500;
+  margin: 0;
+  margin-top: 24px;
+}
+
+h2 {
+  font-size: 1.2em;
+  font-weight: 500;
+  margin: 0;
 }
 
 .empty-list {
@@ -49,4 +57,52 @@ h1 {
   padding-top: 24px;
   font-weight: 600;
   color: transparentize(colors.$text, 0.3);
+}
+
+.task-list {
+  padding-bottom: 12px;
+}
+
+#completed-list-dropdown {
+  display: grid;
+  grid-template-columns: 24px auto;
+  margin-top: 12px;
+  
+  #show-completed-cont {
+    width: 100%;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    display: flex;
+    align-items: center;
+    
+    #show-completed {
+      display: block;
+      border: solid colors.$text;
+      border-width: 0 2px 2px 0;
+      width: 2px;
+      height: 2px;
+      display: inline-block;
+      padding: 3px;
+      transform: rotate(-45deg);
+      margin-top: -2px;
+      
+      transition-duration: 0.5s;
+      transition-property: transform;
+      
+      transition: margin 1000ms transform 500ms;
+    }
+    
+    &.selected #show-completed {
+      transform: translateY(-4px) translateX(2px) rotate(45deg);
+    }
+    
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  
+  h2 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+  }
 }

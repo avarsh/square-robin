@@ -1,6 +1,7 @@
 .separator {
   height: 1px;
   background-color: rgba(0, 0, 0, 0.2);
+  margin-top: 12px;
 }
 
 .taskbox {
@@ -258,6 +259,14 @@ h1 {
 h1 {
   font-size: 1.5em;
   font-weight: 500;
+  margin: 0;
+  margin-top: 24px;
+}
+
+h2 {
+  font-size: 1.2em;
+  font-weight: 500;
+  margin: 0;
 }
 
 .empty-list {
@@ -266,6 +275,47 @@ h1 {
   padding-top: 24px;
   font-weight: 600;
   color: rgba(43, 35, 47, 0.7);
+}
+
+.task-list {
+  padding-bottom: 12px;
+}
+
+#completed-list-dropdown {
+  display: grid;
+  grid-template-columns: 24px auto;
+  margin-top: 12px;
+}
+#completed-list-dropdown #show-completed-cont {
+  width: 100%;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  display: flex;
+  align-items: center;
+}
+#completed-list-dropdown #show-completed-cont #show-completed {
+  display: block;
+  border: solid #2b232f;
+  border-width: 0 2px 2px 0;
+  width: 2px;
+  height: 2px;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(-45deg);
+  margin-top: -2px;
+  transition-duration: 0.5s;
+  transition-property: transform;
+  transition: margin 1000ms transform 500ms;
+}
+#completed-list-dropdown #show-completed-cont.selected #show-completed {
+  transform: translateY(-4px) translateX(2px) rotate(45deg);
+}
+#completed-list-dropdown #show-completed-cont:hover {
+  cursor: pointer;
+}
+#completed-list-dropdown h2 {
+  grid-column-start: 2;
+  grid-column-end: 3;
 }
 
 /*# sourceMappingURL=common.css.map */

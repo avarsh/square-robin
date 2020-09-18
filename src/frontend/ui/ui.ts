@@ -17,3 +17,12 @@ export function useTickbox(userFunc?: (elem: HTMLElement) => void) {
     }
   });
 }
+
+export function useRevealArrow(userFunc?: (elem: HTMLElement) => void) {
+  $(".reveal-arrow").off("click").on("click", function() {
+    $(this).toggleClass("selected");
+    if (userFunc) {
+      userFunc(this);
+    }
+  });
+}

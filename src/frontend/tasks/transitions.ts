@@ -4,6 +4,7 @@ import { Task } from "../../types/task";
 import { State, NULL_STATE } from "../../utils/state";
 import * as requests from "../../types/requests";
 import { setState, fillTasksFromList } from "../tasks/states";
+import { useRevealArrow } from "../ui/ui";
 
 
 export function fromDaily(tasksView: State) {
@@ -14,6 +15,12 @@ export function fromDaily(tasksView: State) {
   if (tasksView.curr === NULL_STATE.name || tasksView.dirty) {
     setState(tasksView, ipcRenderer.sendSync(requests.GET_TASKS));
     tasksView.dirty = false;
+    
+    useRevealArrow((elem: HTMLElement) => {
+      if ($(elem).children("#show-completed").length > 0) {
+        $(".completed-task-list").fadeToggle();
+      }
+    });
   }
 }
 
@@ -22,10 +29,16 @@ export function fromNull(tasksView: State) {
   
   $("#tasks-view .empty-list").hide();
   $("#tasks-view .task-list").hide();
+  $("#tasks-view .completed-task-list").hide();
   
   // Check if we have any tasks
   const tasks: Task[] = ipcRenderer.sendSync(requests.GET_TASKS);
   setState(tasksView, tasks);
+  useRevealArrow((elem: HTMLElement) => {
+    if ($(elem).children("#show-completed").length > 0) {
+      $(".completed-task-list").fadeToggle();
+    }
+  });
 }
 
 export function nullToList(listView: State) {

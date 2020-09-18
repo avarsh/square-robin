@@ -35,7 +35,7 @@ export function buildTaskBox(task: Task): string {
         <div class="add-subtask-row">
           <div class="add-button"></div>
           <div class="subtask-name">
-            <input type='text' placeholder='Add task'/>
+            <input type='text' placeholder='Add subtask'/>
           </div>
         </div>
       </div>

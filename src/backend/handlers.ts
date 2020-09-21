@@ -36,6 +36,11 @@ function setTaskComplete(event: IpcMainEvent, id: number, setting: boolean): voi
     const task: Task = db.tasks[id];
     task.completed = setting;
     writeDatabase(db);
+    if (setting) {
+      mainWindow.webContents.send(requests.BUILD_COMPLETED, db.tasks);
+    } else {
+      mainWindow.webContents.send(requests.BUILD_TASKLIST, db.tasks);
+    }
     event.returnValue = true;
     return;
   }

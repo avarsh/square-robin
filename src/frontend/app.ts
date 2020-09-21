@@ -1,13 +1,12 @@
 import * as states from "./states";
 import * as $ from "jquery";
 import { view } from "./states";
-import { setState } from "./tasks/states";
+import { setState, buildCompletedList } from "./tasks/states";
 import { ipcRenderer } from "electron";
 import * as requests from "../types/requests";
 import { Task } from "../types/task";
 import { buildTaskBox, useTaskbox } from "./ui/taskbox";
 import { useTab } from "./ui/tab";
-import { stat } from "fs";
 
 ipcRenderer.on(requests.BUILD_TASKLIST, (event, tasks: Task[]) => {
   if (view.curr === states.tasksView.name) {
@@ -17,11 +16,15 @@ ipcRenderer.on(requests.BUILD_TASKLIST, (event, tasks: Task[]) => {
   }
 });
 
+ipcRenderer.on(requests.BUILD_COMPLETED, (event, tasks: Task[]) => {
+  buildCompletedList(tasks);
+});
+
 ipcRenderer.on(requests.BUILD_SUBTASKS, (event, task: Task) => {
   const taskbox = $('.task-list').find("[data-id='" + task.id + "']");
   const html: string = buildTaskBox(task);
   taskbox.replaceWith(html);
-  useTaskbox(false);
+  useTaskbox(false, false);
 });
 
 export function setup() {

@@ -9,6 +9,7 @@ const BUILD_TASKLIST: string = "build-tasklist";
 const ADD_SUBTASK: string = "add-subtask";
 const BUILD_SUBTASKS: string = "build-subtasks";
 const SET_SUBTASK_COMPLETE: string = "set-subtask-complete";
+const BUILD_COMPLETED: string = "build-completed";
 
 export {
   GET_TASKS,
@@ -19,5 +20,6 @@ export {
   BUILD_TASKLIST,
   ADD_SUBTASK,
   BUILD_SUBTASKS,
-  SET_SUBTASK_COMPLETE
+  SET_SUBTASK_COMPLETE,
+  BUILD_COMPLETED
 };

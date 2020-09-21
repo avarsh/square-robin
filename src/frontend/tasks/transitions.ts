@@ -58,7 +58,7 @@ export function emptyToList(listView: State) {
 
 export function listToEmpty(emptyView: State) {
   $("#tasks-view .task-list").hide();
-  $("#tasks-view .show-list").show();
+  $("#tasks-view .empty-list").show();
 }
 
 export function listToList(listView: State) {

@@ -65,23 +65,23 @@ export function buildSubtask(subtask: Subtask): string {
   return template;
 }
 
-export function useTaskbox(hideSub: boolean) {
+export function useTaskbox(hideSub: boolean, completed: boolean, onTick?: (tickbox: HTMLElement) => void) {
   $(".taskbox").off('click').on('click', function(event) {
-    // Only detect click on taskbox and not children
-    const target = $(event.target);
-    const childElems: string[] = [
-      "tickbox",
-      "task-schedule",
-      "add-button",
-      "subtask-name"
-    ];
-    for (const childElem of childElems) {
-      if (target.hasClass(childElem) || target.parents("." + childElem).length) {
-        return false;
+      // Only detect click on taskbox and not children
+      const target = $(event.target);
+      const childElems: string[] = [
+        "tickbox",
+        "task-schedule",
+        "add-button",
+        "subtask-name"
+      ];
+      for (const childElem of childElems) {
+        if (target.hasClass(childElem) || target.parents("." + childElem).length) {
+          return false;
+        }
       }
-    }
 
-    $(this).children(".subtask-box").slideToggle();
+      $(this).children(".subtask-box").slideToggle();
   });
   
   if (hideSub) {
